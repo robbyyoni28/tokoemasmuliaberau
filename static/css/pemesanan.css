@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+h1{
+    font-family: 'Fruktur', cursive;
+}
+input { 
+    text-align: center; 
+}
+body { background: rgb(136, 117, 97) !important; 
+}
+a {
+    font-family: 'Fruktur', cursive;
+}
