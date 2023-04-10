@@ -366,15 +366,86 @@
               <h1>Barang</h1>
               <div class="row">
                 <div class="col-sm">
+                  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                  </button> -->
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form  method="POST" action="{{url_for('tambah')}}" enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">ID Barang</label>
+                              {% for row in id_barang %}
+                              <input type="text" class="form-control" id="id_barang_sebelumnya" aria-describedby="emailHelp" placeholder="" value="{{row['id_barang']}}"  hidden>
+                              {% endfor %}
+                              <input type="text" class="form-control" id="id_barang" name="id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Nama Barang</label>
+                              <input type="text" id="id_sebelumnya" hidden>
+                              <input type="text" class="form-control" id="nama_barang" aria-describedby="emailHelp" name="nama_barang" placeholder="Masukkan Nama Barang" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Merk Barang</label>
+                              <input type="text" class="form-control" id="merk_barang" name="merk_barang" aria-describedby="emailHelp" placeholder="Masukkan Merk Barang" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Harga Jual</label>
+                              <input type="text" class="form-control" id="harga_jual" name="harga_jual" aria-describedby="emailHelp" placeholder="Masukkan Nama Barang" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Satuan Barang</label>
+                              <select class="form-select" name="satuan_barang" id="satuan_barang" aria-label="Default select example" required>
+                                
+                                <option value="PCS" required>PCS</option>
+                                <!-- <option value="2">Two</option> -->
+                                <!-- <option value="3">Three</option> -->
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <opti for="exampleInputPassword1">Stok Barang</label>
+                              <input type="number" class="form-control" id="stok_barang" name="stok_barang" placeholder="Input Stok Barang" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputPassword1">Foto Barang</label>
+                              <input type="file"  class="form-control" id="file" name="file" placeholder="Input Stok Barang" required>
+                            </div>
+                            <!-- <div class="form-group">
+                              <button class="btn btn-warning" type="submit" value="submit" id="submit">UPLOAD</button>
+                          </div> -->
+                          <div class="modal-footer form-group">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="submit" value="submit">Save changes</button>
+                          </div>
+                          </form>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <button type="button" class="btn btn-primary "  data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" aria-hidden="true"> </i> Tambah</button>
-                  <button type="button" class="btn btn-primary "><i class="fa fa-refresh" aria-hidden="true"> </i> Update</button>
+                 
+                 
+              
+                  <!-- <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button> -->
                 </div>
               </div>
-             
-              <table id="example" class="table" style="width:100%">
+             <div class="table-responsive w-100 d-block d-md-table">
+              <table id="example" class="table" >
                 <thead>
-                  <tr class="table-primary">
+                  <tr class="table-primary ">
                     <th>ID Barang</th>
+                    <th>Foto Barang</th>
                     <th>Nama Barang</th>
                     <th>Merk</th>
                     <th>Harga Jual</th>
@@ -382,12 +453,14 @@
                     <th>Stok</th>
                     <th>Tanggal Input</th>
                     <th>Tanggal Update</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for row in barang %}
                   <tr>
                     <td>{{row['id_barang']}}</td>
+                    <td><img src="/static/uploads/{{row['filename']}}" alt="" style="height: 100px; width: fit-content;"></td>
                     <td>{{row['nama_barang']}}</td>
                     <td>{{row['merk']}}</td>
                     <td>{{row['harga_jual']}}</td>
@@ -395,6 +468,10 @@
                     <td>{{row['stok']}}</td>
                     <td>{{row['tgl_input']}}</td>
                     <td>{{row['tgl_update']}}</td>
+                    <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}', '{{row['merk']}}', '{{row['harga_jual']}}', '{{row['satuan_barang']}}', '{{row['stok']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
+                      <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
+                      <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-refresh" aria-hidden="true" > </i> Delete</a>
+                    </td>
                   </tr>
                   {% endfor %}
                   <!-- <tr>
@@ -849,6 +926,7 @@
                 <tfoot>
                   <tr>
                     <th>ID Barang</th>
+                    <th>Foto Barang</th>
                     <th>Nama Barang</th>
                     <th>Merk</th>
                     <th>Harga Jual</th>
@@ -856,25 +934,88 @@
                     <th>Stok</th>
                     <th>Tanggal Input</th>
                     <th>Tanggal Update</th>
+                    <th>Action</th>
                   </tr>
                 </tfoot>
               </table>  
-              
+            </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    <div class="modal fade" id="updatemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+         
+              <div class="form-group">
+                <label for="exampleInputEmail1">ID Barang</label>
+                <input type="text" class="form-control" id="mdl_update_id"  style="display: none;" value="">
+                <input type="text" class="form-control" id="mdl_update_file"  style="display: none;" value="">
+                <input type="text" class="form-control" id="mdl_update_inputtgl"  style="display: none;" value="">
+                
+                <input type="text" class="form-control" id="upd_id_barang" name="upd_id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nama Barang</label>
+                <input type="text" id="id_sebelumnya" hidden>
+                <input type="text" class="form-control" id="upd_nama_barang" aria-describedby="emailHelp" name="upd_nama_barang" placeholder="Masukkan Nama Barang" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Merk Barang</label>
+                <input type="text" class="form-control" id="upd_merk_barang" name="merk_barang" aria-describedby="emailHelp" placeholder="Masukkan Merk Barang" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Harga Jual</label>
+                <input type="text" class="form-control" id="upd_harga_jual" name="harga_jual" aria-describedby="emailHelp" placeholder="Masukkan Nama Barang" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Satuan Barang</label>
+                <select class="form-select" name="upd_satuan_barang" id="upd_satuan_barang" aria-label="Default select example" required>
+                  
+                  <option value="PCS" required>PCS</option>
+                  <!-- <option value="2">Two</option> -->
+                  <!-- <option value="3">Three</option> -->
+                </select>
+              </div>
+              <div class="form-group">
+                <opti for="exampleInputPassword1">Stok Barang</label>
+                <input type="number" class="form-control" id="upd_stok_barang" name="stok_barang" placeholder="Input Stok Barang" required>
+              </div>
+              <!-- <div class="form-group">
+                <label for="exampleInputPassword1">Foto Barang</label>
+                <input type="file"  class="form-control" id="upd_file" name="file" placeholder="Input Stok Barang" required>
+              </div> -->
+              <!-- <div class="form-group">
+                <button class="btn btn-warning" type="submit" value="submit" id="submit">UPLOAD</button>
+            </div> -->
+            <div class="modal-footer form-group">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="submit"  onclick="sendupdatetoserver()">Save changes</button>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+   
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
       <div class="card">
         <div class="card-body p-3">
-          
+          <div class="table-responsive w-100 d-block d-md-table">
           <h1>Penjualan</h1>
           
-          <table id="example2" class="table" style="width:100%">
+          <table id="example2" class="table col-xl-12 col-sm-6 mb-xl-0 mb-4" style="width:100%">
             <thead>
               <tr class="table-info">
                 <th>Id Barang</th>
@@ -1356,11 +1497,12 @@
               </tr>
             </tfoot>
           </table>  
-          
+        
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
     <!-- End Navbar -->
@@ -1892,6 +2034,9 @@
   <script src="/static/assets/js/core/bootstrap.min.js"></script>
   <script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="/static/assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -1901,10 +2046,6 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="/static/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
   <script>
     $(document).ready(function () {
     $('#example').DataTable();
@@ -1915,11 +2056,137 @@
     $('#example2').DataTable();
 });
   </script>
-  <script>
+  <!-- <script>
     $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
+  </script> -->
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="/static/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+
+  <script>
+    const myElement = document.getElementById("id_barang_sebelumnya").value;
+    
+    console.log(myElement)
+    var ret = myElement.replace('BR','')  
+    // ret ??= 0;
+    // test = ret || 0
+    // console.log(test)
+    tambah = parseInt(ret)+1
+    console.log(tambah); 
+    document.getElementById("id_barang").value = "BR"+tambah
+
+    </script>
+    <script>
+      var rupiah = document.getElementById("harga_jual");
+      rupiah.addEventListener("keyup", function(e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah.value = formatRupiah(this.value, "Rp. ");
+      });
+      
+      /* Fungsi formatRupiah */
+      function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+        
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+      }
+    </script>
+
+<script>
+  var rupiah = document.getElementById("upd_harga_jual");
+  rupiah.addEventListener("keyup", function(e) {
+    // tambahkan 'Rp.' pada saat form di ketik
+    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+    rupiah.value = formatRupiah(this.value, "Rp. ");
+  });
+  
+  /* Fungsi formatRupiah */
+  function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+    split = number_string.split(","),
+    sisa = split[0].length % 3,
+    rupiah = split[0].substr(0, sisa),
+    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+    
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if (ribuan) {
+      separator = sisa ? "." : "";
+      rupiah += separator + ribuan.join(".");
+    }
+    
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+  }
+</script>
+    
+  <script>
+   
+    function showEditModal(id,id_barang, filename, nama_barang,merk, harga_jual, satuan_barang, stok, tgl_input, tgl_update) {
+        // alert(`modal dimunculkann, dengan data id_berita = ${id_berita} judul_berita=${judul_berita} penulis=${penulis} id_kategori=${kategori} gambar=${gambar} berita=${berita} tanggal_upload = ${tanggal_upload} `)
+        $('#updatemodal').modal('show')
+        document.getElementById('mdl_update_id').value = id
+        document.getElementById('upd_id_barang').value = id_barang
+        document.getElementById('upd_nama_barang').value = nama_barang
+        document.getElementById('upd_merk_barang').value = merk
+        document.getElementById('upd_harga_jual').value = harga_jual
+        document.getElementById('upd_satuan_barang').value = satuan_barang
+        document.getElementById('upd_stok_barang').value = stok
+        document.getElementById('mdl_update_file').value = filename
+        document.getElementById('mdl_update_inputtgl').value = tgl_input
+
+    }
+    function sendupdatetoserver(){
+    console.log('fungsi terpanggil')
+    update_idbarang = document.getElementById('upd_id_barang').value
+    update_namabarang = document.getElementById('upd_nama_barang').value
+    update_merk= document.getElementById('upd_merk_barang').value
+    update_hargajual = document.getElementById('upd_harga_jual').value
+    update_satuan = document.getElementById('upd_satuan_barang').value
+    update_stok = document.getElementById('upd_stok_barang').value
+    update_filename = document.getElementById('mdl_update_file').value
+    update_inputtgl = document.getElementById('mdl_update_inputtgl').value
+    update_id = document.getElementById('mdl_update_id').value
+    
+    form_update = {"upd_id_barang" : update_idbarang, "upd_nama_barang" : update_namabarang, "upd_merk_barang" : update_merk, "upd_harga_jual" : update_hargajual, "upd_satuan_barang" : update_satuan, "upd_stok_barang" : update_stok, "mdl_update_id": update_id,  "mdl_update_file": update_filename, "mdl_update_inputtgl":update_inputtgl }
+    
+    var XHR = new XMLHttpRequest()
+    XHR.addEventListener("load", tampilkanrespon)
+    XHR.open("POST","/update")
+    XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
+    XHR.send(JSON.stringify(form_update))
+    
+    function tampilkanrespon() {
+        console.log(this.responseText)
+        if(XHR.status == 200){
+            window.location.href = "/table"
+        }
+        else{
+            alert("data tidak masuk")
+        }
+    }
+    
+    
+    
+    
+}
+
   </script>
+
+
 </body>
 
 </html>
