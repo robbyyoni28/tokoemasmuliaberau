@@ -1,0 +1,386 @@
+  <div class="card h-100">
+            <div class="card-header pb-0 p-3">
+              <div class="row">
+                <div class="col-6 d-flex align-items-center">
+                  <h6 class="mb-0">Invoices</h6>
+                  
+                </div>
+                <div class="table-responsive w-100 d-block d-md-table">
+                  <table id="example" class="table" >
+                    <thead>
+                      <tr class="table-primary ">
+                        <th>ID Barang</th>
+                        <th>Foto Barang</th>
+                        <th>Barcode Barang</th>
+                        <th>Nama Barang</th>
+                        <!-- <th>Merk</th> -->
+                        <th>Gram Emas</th>
+                        <!-- <th>Satuan Barang</th> -->
+                        <!-- <th>Stok</th> -->
+                        <th>Tanggal Input</th>
+                        <th>Tanggal Update</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in barang %}
+                      <tr>
+                        <td>{{row['id_barang']}}</td>
+                        <td><img src="/static/uploads/{{row['filename']}}" alt="" style="height: 100px; width: fit-content;"></td>
+                        <td><img src="/static/uploads/{{row['qrcode']}}" alt="" style="height: 100px; width: fit-content;"></td>
+                        <td>{{row['nama_barang']}}</td>
+                        <!-- <td>{{row['merk']}}</td> -->
+                        <td>{{row['gram']}}</td>
+                        <!-- <td>{{row['satuan_barang']}}</td> -->
+                        <!-- <td>{{row['stok']}}</td> -->
+                        <td>{{row['tgl_input']}}</td>
+                        <td>{{row['tgl_update']}}</td>
+                        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}',  '{{row['gram']}}', '{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Transaksi</button>
+                          <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
+                          <!-- <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-refresh" aria-hidden="true" > </i> Delete</a> -->
+                        </td>
+                      </tr>
+                      {% endfor %}
+                     
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>ID Barang</th>
+                        <th>Foto Barang</th>
+                        <th>Barcode Barang</th>
+                        <th>Nama Barang</th>
+                        <!-- <th>Merk</th> -->
+                        <th>Harga Jual</th>
+                        <!-- <th>Satuan Barang</th> -->
+                        <!-- <th>Stok</th> -->
+                        <th>Tanggal Input</th>
+                        <th>Tanggal Update</th>
+                        <th>Action</th>
+                      </tr>
+                    </tfoot>
+                  </table>  
+                </div>
+                <!-- <div class="col-6 text-end">
+                  <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
+                </div> -->
+              </div>
+            </div>
+            
+            <!-- <div class="card-body p-3 pb-0">
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
+                    <span class="text-xs">#MS-415646</span>
+                  </div>
+                  <div class="d-flex align-items-center text-sm">
+                    $180
+                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
+                    <span class="text-xs">#RV-126749</span>
+                  </div>
+                  <div class="d-flex align-items-center text-sm">
+                    $250
+                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
+                    <span class="text-xs">#FB-212562</span>
+                  </div>
+                  <div class="d-flex align-items-center text-sm">
+                    $560
+                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
+                    <span class="text-xs">#QW-103578</span>
+                  </div>
+                  <div class="d-flex align-items-center text-sm">
+                    $120
+                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
+                    <span class="text-xs">#AR-803481</span>
+                  </div>
+                  <div class="d-flex align-items-center text-sm">
+                    $300
+                    <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
+                  </div>
+                </li>
+              </ul>
+            </div> 
+          </div>
+         </div> -->
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-7 mt-4">
+          <div class="card">
+            <div class="card-header pb-0 px-3">
+              <h6 class="mb-0">Billing Information</h6>
+            </div>
+            <div class="card-body pt-4 p-3">
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="mb-3 text-sm">Oliver Liam</h6>
+                    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
+                    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
+                    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                  </div>
+                  <div class="ms-auto text-end">
+                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="mb-3 text-sm">Lucas Harper</h6>
+                    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
+                    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
+                    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                  </div>
+                  <div class="ms-auto text-end">
+                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+                  <div class="d-flex flex-column">
+                    <h6 class="mb-3 text-sm">Ethan James</h6>
+                    <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Fiber Notion</span></span>
+                    <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
+                    <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                  </div>
+                  <div class="ms-auto text-end">
+                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 mt-4">
+          <div class="card h-100 mb-4">
+            <div class="card-header pb-0 px-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6 class="mb-0">Your Transaction's</h6>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end align-items-center">
+                  <i class="far fa-calendar-alt me-2"></i>
+                  <small>23 - 30 March 2020</small>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-4 p-3">
+              <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-down"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">Netflix</h6>
+                      <span class="text-xs">27 March 2020, at 12:30 PM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                    - $ 2,500
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">Apple</h6>
+                      <span class="text-xs">27 March 2020, at 04:30 AM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                    + $ 2,000
+                  </div>
+                </li>
+              </ul>
+              <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
+              <ul class="list-group">
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">Stripe</h6>
+                      <span class="text-xs">26 March 2020, at 13:45 PM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                    + $ 750
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
+                      <span class="text-xs">26 March 2020, at 12:30 PM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                    + $ 1,000
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
+                      <span class="text-xs">26 March 2020, at 08:30 AM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
+                    + $ 2,500
+                  </div>
+                </li>
+                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-exclamation"></i></button>
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-1 text-dark text-sm">Webflow</h6>
+                      <span class="text-xs">26 March 2020, at 05:00 AM</span>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
+                    Pending
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+        
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="updatemodal">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <form>
+                  <div class="form-group" >
+                    
+                    <img id="ini" alt="" style="height: 200px; width: fit-content;" class="rounded mx-auto d-block">
+                    <!-- <label for="exampleInputEmail1">Nama Pembeli</label> -->
+                    <!-- <input type="text" id="id_sebelumnya" hidden>
+                      <input type="text" class="form-control" id="nama_pembeli" aria-describedby="emailHelp" name="nama_pembeli" placeholder="Masukkan Nama Pembeli" required> -->
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">ID Barang</label>
+                          <input type="text" class="form-control" id="mdl_update_id"  style="display: none;" value="">
+                          <input type="text" class="form-control" id="mdl_update_file"  style="display: none;" value="">
+                          <input type="text" class="form-control" id="mdl_update_inputtransaksi"  style="display: none;" value="">
+                          <input type="text" class="form-control" id="user_transaksi"  style="display: none;" value="{{sess_data['USER_ID']}}">
+                          
+                          <input type="text" class="form-control" id="upd_id_barang" name="upd_id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Nama Pembeli</label>
+                          <input type="text" id="id_sebelumnya" hidden>
+                          <input type="text" class="form-control" id="nama_pembeli" aria-describedby="emailHelp" name="nama_pembeli" placeholder="Masukkan Nama Pembeli" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Nama Barang</label>
+                          <input type="text" id="id_sebelumnya" hidden>
+                          <input type="text" class="form-control" id="upd_nama_barang" aria-describedby="emailHelp" name="upd_nama_barang" placeholder="Masukkan Nama Barang" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Gram Barang</label>
+                          <input type="text" class="form-control" id="gram_barang" name="gram_barang" aria-describedby="emailHelp" onkeyup="hitung()" placeholder="Masukkan Gram Barang" required>
+                        </div>
+                        
+                        
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Harga Jual</label>
+                          <input type="text" class="form-control" id="harga_jual" name="harga_jual" aria-describedby="emailHelp" onkeyup="hitung()" placeholder="Masukkan Harga Jual" required >
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Potongan Harga</label>
+                          <input type="text" class="form-control" id="potongan_harga" onkeyup="hitung()" name="potongan_hargaaria-describedby="emailHelp" placeholder="Masukkan Potongan Harga" required value="0">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Total Harga</label>
+                          <input type="text" class="form-control" id="total_harga" name="total_hargaaria-describedby="emailHelp" placeholder="Total Harga" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Tanggal Transaksi</label>
+                          <!-- <span id='ct' ></span> -->
+                          <input type="text" class="form-control" id='ct' name="tanggal_transaksi" aria-describedby="emailHelp" placeholder="Masukkan Nama Barang" readonly>
+                        </div>
+                      </div>
+                      <!-- <div class="form-group">
+                        <label for="exampleInputEmail1">Satuan Barang</label>
+                        <select class="form-select" name="upd_satuan_barang" id="upd_satuan_barang" aria-label="Default select example" required>
+                          
+                          <option value="PCS" required>PCS</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select>
+                      </div> -->
+                      <!-- <div class="form-group">
+                        <opti for="exampleInputPassword1">Stok Barang</label>
+                          <input type="number" class="form-control" id="upd_stok_barang" name="stok_barang" placeholder="Input Stok Barang" required>
+                        </div> -->
+                        <!-- <div class="form-group">
+                          <label for="exampleInputPassword1">Foto Barang</label>
+                          <input type="file"  class="form-control" id="upd_file" name="file" placeholder="Input Stok Barang" required>
+                        </div> -->
+                        <!-- <div class="form-group">
+                          <button class="btn btn-warning" type="submit" value="submit" id="submit">UPLOAD</button>
+                        </div> -->
+                      
+                  </div>
+                </form>
+                <div class="modal-footer form-group">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" id="submit"  onclick="sendupdatetoserver()">Save changes</button>
+                </div>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <script>
+          function showEditModal(id,id_barang, filename, nama_barang, gram, tgl_input, tgl_update) {
+            $('#updatemodal').modal('show')
+            document.getElementById('mdl_update_id').value = id
+            document.getElementById('upd_id_barang').value = id_barang
+            document.getElementById('upd_nama_barang').value = nama_barang
+           // document.getElementById('upd_merk_barang').value = merk 
+            document.getElementById('gram_barang').value = gram
+            //document.getElementById('upd_satuan_barang').value = satuan_barang
+            //document.getElementById('upd_stok_barang').value = stok
+            document.getElementById('mdl_update_file').value = filename
+            document.getElementById('mdl_update_inputtransaksi').value = tgl_input
+            const img = document.getElementById("ini");
+            img.src = '/static/uploads/'+ filename;
+            // document.getElementById("image-holder").innerHTML = "<img src='image.png' alt='The Image' />";
+      
+        }
+        </script>

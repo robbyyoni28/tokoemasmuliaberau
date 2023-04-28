@@ -8,6 +8,10 @@ import io
 import os
 from werkzeug.utils import secure_filename
 from flask_bootstrap import Bootstrap
+import qrcode
+import image
+from flask_qrcode import QRcode
+
 # from datetime import *
 import datetime
 
@@ -84,7 +88,7 @@ def table():
     
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"SELECT penjualan.id_barang, member.nm_member, penjualan.jumlah, penjualan.total, penjualan.tanggal_input FROM penjualan INNER JOIN member ON penjualan.id_member = penjualan.id_member;")
+        cursor.execute(f"SELECT penjualan.id_barang, member.nm_member, penjualan.jumlah, penjualan.total, penjualan.tanggal_transaksi FROM penjualan INNER JOIN member ON penjualan.id_member = penjualan.id_member;")
         penjualan = cursor.fetchall()
         print(penjualan)
 
@@ -113,6 +117,7 @@ def tambah():
         flash('No pdf selected for uploading')
         return redirect(request.url)
     if file and allowed_file(file.filename):
+        qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=12,border=2)
         iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
         filename = secure_filename(file.filename)
         NOW = datetime.datetime.now()
@@ -120,17 +125,21 @@ def tambah():
         # filename = secure_filename(file.datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         upload_idbarang = request.form['id_barang']
         upload_nmbarang = request.form['nama_barang']
-        upload_merk = request.form['merk_barang']
-        upload_hargajual = request.form['harga_jual']
-        upload_satuanbarang = request.form['satuan_barang']
-        upload_stokbarang = request.form['stok_barang']
-        
+        # upload_merk = request.form['merk_barang']
+        # upload_hargajual = request.form['harga_jual']
+        upload_grambarang = request.form['gram_barang']
+        # upload_stokbarang = request.form['stok_barang']
+        qr.add_data(upload_idbarang)
+        qr.make(fit =True)
+        img = qr.make_image(fill = 'Black',back_color = 'White')
+        new_filenamebarcode = os.path.join(NOW.strftime("%d_%m_%Y_%H_%M_%S_barcode.png"))
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filenamebarcode)) 
         # nama_download = os.path.join(request.form['nama_file']+ '.' + file.filename.rsplit('.',1)[1])
         # file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.new_filename)))
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, merk, harga_jual, satuan_barang,stok,tgl_input, filename) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)",(upload_idbarang,upload_nmbarang, upload_merk,upload_hargajual,upload_satuanbarang,upload_stokbarang, iso8601, new_filename))
+            cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, gram,tgl_input, filename, qrcode) VALUES (%s, %s, %s, %s, %s, %s)",(upload_idbarang,upload_nmbarang, upload_grambarang, iso8601, new_filename, new_filenamebarcode))
         connection.commit()
 
 #print('upload_image filename: ' + filename)
@@ -142,47 +151,27 @@ def tambah():
 
 @app.route('/update', methods=['POST'])
 def update():
-    # if 'file' not in request.files:
-    #     flash('No file part')
-    #     return redirect(request.url)
-    # file = request.files['file']
-    # if file.filename == '':
-    #     flash('No pdf selected for uploading')
-    #     return redirect(request.url)
-    # if file and allowed_file(file.filename):
-    #     iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
-    #     filename = secure_filename(file.filename)
-    #     NOW = datetime.datetime.now()
-    #     new_filename = os.path.join(NOW.strftime("%d_%m_%Y_%H_%M_%S") + '.' + file.filename.rsplit('.',1)[1])
-        # filename = secure_filename(file.datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+    
     if request.method == 'POST':
         request.form = request.json
         upload_id = request.form['mdl_update_id']
         upload_idbarang = request.form['upd_id_barang']
         upload_nmbarang = request.form['upd_nama_barang']
-        upload_merk = request.form['upd_merk_barang']
-        upload_hargajual = request.form['upd_harga_jual']
-        upload_satuanbarang = request.form['upd_satuan_barang']
-        upload_stokbarang = request.form['upd_stok_barang']
+        # upload_merk = request.form['upd_merk_barang']
+        upload_gram = request.form['upd_gram']
+        # upload_satuanbarang = request.form['upd_satuan_barang']
+        # upload_stokbarang = request.form['upd_stok_barang']
         upload_tglinput = request.form['mdl_update_inputtgl']
         upload_file = request.form['mdl_update_file']
         iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
         
-        # nama_download = os.path.join(request.form['nama_file']+ '.' + file.filename.rsplit('.',1)[1])
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.new_filename)))
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+     
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"UPDATE barang SET id_barang = '{upload_idbarang}', nama_barang = '{upload_nmbarang}', merk = '{upload_merk}', harga_jual = '{upload_hargajual}', satuan_barang = '{upload_satuanbarang}', stok = '{upload_stokbarang}',tgl_input = '{upload_tglinput}',filename ='{upload_file}', tgl_update = '{iso8601}' WHERE id = '{upload_id}'")
+            cursor.execute(f"UPDATE barang SET id_barang = '{upload_idbarang}', nama_barang = '{upload_nmbarang}',gram = '{upload_gram}', tgl_input = '{upload_tglinput}',filename ='{upload_file}', tgl_update = '{iso8601}' WHERE id = '{upload_id}'")
             # cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, merk, harga_jual, satuan_barang,stok,tgl_update, filename) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)",(upload_idbarang,upload_nmbarang, upload_merk,upload_hargajual,upload_satuanbarang,upload_stokbarang, iso8601, new_filename))
         connection.commit()
         return redirect(url_for('table'))
-#print('upload_image filename: ' + filename)
-    #     flash('Image successfully uploaded and displayed below')
-    #     return redirect(url_for('table'))
-    # else:
-    #     flash('Allowed image types are -> png, jpg, jpeg, gif')
-    #     return redirect(request.url)
 
 
 # @app.route('/detail/<id_barang>', methods=['GET','POST'])
@@ -204,12 +193,92 @@ def update():
 
 @app.route('/billing', methods=['GET','POST'])
 def billing():
-    # if len(session) == 0:
-    #     return redirect('/?msg=SESSION_KOSONG')
+    if len(session) == 0:
+        return redirect('/?msg=SESSION_KOSONG')
     
-    return render_template("billing.html",sess_data=session)
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM barang ORDER BY id_barang ASC")
+        barang = cursor.fetchall()
+        print(barang)
 
+        cursor.execute(f"SELECT * FROM tb_cart")
+        cart = cursor.fetchall()
+        print(cart)
 
+        cursor.execute(f"SELECT SUM(gram) FROM tb_cart")
+        gram = cursor.fetchall()
+        print(gram)
+            
+            # session['LEVEL'] = satudata['level']
+            # session['USER_KETERANGAN'] = satudata['id_jkdt']
+            # return Response("data ditemukan oleh server", status=200)
+    
+    return render_template("billing.html",sess_data=session, barang=barang, cart=cart, gram=gram)
+
+@app.route("/totalgram", methods=["GET", 'POST'])
+def totalgram():
+    # Access the identity of the current user with get_jwt_identity
+    if request.method == 'GET':
+
+        connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT SUM(gram) AS totalgram FROM tb_cart")
+            gram = cursor.fetchall()
+            print(gram)
+
+        # variabel koneksi tersebut kemudian di gunakan pada konteks with berikut sehingga pada blok with kita dapat mengakses variabel koneksi untuk kemudian kita gunakan untuk operasi CRUD ke DB
+            if gram is None:
+                return jsonify("data tidak ditemukan oleh server", status=404)
+            else:
+                return jsonify({"gram":gram})
+
+@app.route('/transaksi', methods=['GET','POST'])
+def transaksi():
+    if len(session) == 0:
+        return redirect('/?msg=SESSION_KOSONG')
+    
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No pdf selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        qr = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=12,border=2)
+        iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        filename = secure_filename(file.filename)
+        NOW = datetime.datetime.now()
+        new_filename = os.path.join(NOW.strftime("%d_%m_%Y_%H_%M_%S") + '.' + file.filename.rsplit('.',1)[1])
+        # filename = secure_filename(file.datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+        upload_idbarang = request.form['id_barang']
+        upload_nmbarang = request.form['nama_barang']
+        # upload_merk = request.form['merk_barang']
+        # upload_hargajual = request.form['harga_jual']
+        upload_grambarang = request.form['gram_barang']
+        # upload_stokbarang = request.form['stok_barang']
+        qr.add_data(upload_idbarang)
+        qr.make(fit =True)
+        img = qr.make_image(fill = 'Black',back_color = 'White')
+        new_filenamebarcode = os.path.join(NOW.strftime("%d_%m_%Y_%H_%M_%S_barcode.png"))
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filenamebarcode)) 
+        # nama_download = os.path.join(request.form['nama_file']+ '.' + file.filename.rsplit('.',1)[1])
+        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.new_filename)))
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+        connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+        with connection.cursor() as cursor:
+            cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, gram,tgl_input, filename, qrcode) VALUES (%s, %s, %s, %s, %s, %s)",(upload_idbarang,upload_nmbarang, upload_grambarang, iso8601, new_filename, new_filenamebarcode))
+        connection.commit()
+
+#print('upload_image filename: ' + filename)
+        flash('Image successfully uploaded and displayed below')
+        return redirect(url_for('table'))
+    else:
+        flash('Allowed image types are -> png, jpg, jpeg, gif')
+        return redirect(request.url)
+    
+    
 
 
 @app.route('/profil', methods=['GET','POST'])
@@ -229,10 +298,42 @@ def delete(filename):
         connection.commit()
         return redirect(url_for('table'))
 
+
+@app.route('/deletecart/<id_barang>', methods=['GET','POST'])
+def deletecart(id_barang):
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        cursor.execute(f"DELETE FROM tb_cart WHERE id_barang = '{id_barang}'   ")
+        connection.commit()
+        return redirect(url_for('billing'))
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect('/?msg=ANDA_SUDAH_LOGOUT')
+
+
+@app.route('/addcart', methods=['GET','POST'])
+def addcart():
+    if len(session) == 0:
+        return redirect('/?msg=SESSION_KOSONG')
+    if request.method == 'POST':
+        request.form = request.json
+        addcart_id = request.form['addcart_id']
+        addcart_filename = request.form['addcart_filename']
+        addcart_nama = request.form['addcart_nama']
+        addcart_gram = request.form['addcart_gram']
+        addcart_tglinput = request.form['addcart_tglinput']
+        addcart_tglupdate = request.form['addcart_tglupdate']
+        addcart_qrcode = request.form['addcart_qrcode']
+
+       
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,tanggal_input, tanggal_update, qrcode) VALUES (%s, %s, %s, %s, %s, %s, %s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram, addcart_tglinput, addcart_tglupdate, addcart_qrcode))
+        connection.commit()
+        return redirect(url_for('billing'))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
