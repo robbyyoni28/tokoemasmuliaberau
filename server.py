@@ -168,7 +168,7 @@ def update():
      
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"UPDATE barang SET id_barang = '{upload_idbarang}', nama_barang = '{upload_nmbarang}',gram = '{upload_gram}', tgl_input = '{upload_tglinput}',filename ='{upload_file}', tgl_update = '{iso8601}' WHERE id = '{upload_id}'")
+            cursor.execute(f"UPDATE barang SET id_barang = '{upload_idbarang}', nama_barang = '{upload_nmbarang}',gram = '{upload_gram}', tgl_input = '{iso8601}',filename ='{upload_file}' WHERE id = '{upload_id}'")
             # cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, merk, harga_jual, satuan_barang,stok,tgl_update, filename) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)",(upload_idbarang,upload_nmbarang, upload_merk,upload_hargajual,upload_satuanbarang,upload_stokbarang, iso8601, new_filename))
         connection.commit()
         return redirect(url_for('table'))
@@ -209,29 +209,33 @@ def billing():
         cursor.execute(f"SELECT SUM(gram) FROM tb_cart")
         gram = cursor.fetchall()
         print(gram)
+
+        cursor.execute(f"SELECT SUM(jumlah) AS jumlah FROM tb_cart")
+        jumlah = cursor.fetchall()
+        print(jumlah)
             
             # session['LEVEL'] = satudata['level']
             # session['USER_KETERANGAN'] = satudata['id_jkdt']
             # return Response("data ditemukan oleh server", status=200)
     
-    return render_template("billing.html",sess_data=session, barang=barang, cart=cart, gram=gram)
+    return render_template("billing.html",sess_data=session, barang=barang, cart=cart, gram=gram, jumlah=jumlah)
 
-@app.route("/totalgram", methods=["GET", 'POST'])
-def totalgram():
+@app.route("/totalan", methods=["GET", 'POST'])
+def totalan():
     # Access the identity of the current user with get_jwt_identity
     if request.method == 'GET':
 
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"SELECT SUM(gram) AS totalgram FROM tb_cart")
-            gram = cursor.fetchall()
-            print(gram)
+            cursor.execute(f"SELECT SUM(jumlah) AS jumlah FROM tb_cart")
+            jumlah = cursor.fetchall()
+            print(jumlah)
 
         # variabel koneksi tersebut kemudian di gunakan pada konteks with berikut sehingga pada blok with kita dapat mengakses variabel koneksi untuk kemudian kita gunakan untuk operasi CRUD ke DB
-            if gram is None:
+            if jumlah is None:
                 return jsonify("data tidak ditemukan oleh server", status=404)
             else:
-                return jsonify({"gram":gram})
+                return jsonify({"jumlah":jumlah})
 
 @app.route('/transaksi', methods=['GET','POST'])
 def transaksi():
@@ -289,6 +293,14 @@ def profil():
     return render_template("profile.html",sess_data=session)
 
 
+@app.route('/deleteallrow', methods=['GET','POST'])
+def deleteallrow():
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+            cursor.execute(f"DELETE FROM tb_cart")
+            connection.commit()
+            return redirect(url_for('billing'))
+
 @app.route('/delete/<filename>', methods=['GET','POST'])
 def delete(filename):
     full_path =  os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -319,21 +331,44 @@ def addcart():
         return redirect('/?msg=SESSION_KOSONG')
     if request.method == 'POST':
         request.form = request.json
-        addcart_id = request.form['addcart_id']
-        addcart_filename = request.form['addcart_filename']
-        addcart_nama = request.form['addcart_nama']
-        addcart_gram = request.form['addcart_gram']
-        addcart_tglinput = request.form['addcart_tglinput']
-        addcart_tglupdate = request.form['addcart_tglupdate']
-        addcart_qrcode = request.form['addcart_qrcode']
+        addcart_id = request.form['upd_id_barang']
+        addcart_filename = request.form['ini']
+        addcart_nama = request.form['upd_nama_barang']
+        addcart_gram = request.form['gram_barang']
+        addcart_hargajual = request.form['harga_jual']
+        addcart_potonganharga = request.form['potongan_harga']
+        addcart_tglinput = request.form['mdl_input']
+        addcart_tglupdate = request.form['mdl_update']
+        addcart_qrcode = request.form['qr_code']
+        addcart_total = request.form['total_harga']
+        addcart_removerupiah = request.form['jumlah_aja']
+        addcart_qty = request.form['qty']
+
 
        
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,tanggal_input, tanggal_update, qrcode) VALUES (%s, %s, %s, %s, %s, %s, %s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram, addcart_tglinput, addcart_tglupdate, addcart_qrcode))
+        cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,harga_jual,qty, tanggal_input, tanggal_update, qrcode, potongan_harga, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga, addcart_total, addcart_removerupiah))
         connection.commit()
         return redirect(url_for('billing'))
 
+
+@app.route('/printqrcode', methods=['GET','POST'])
+def printqrcode():
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        request.form = request.json
+        addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT * FROM barang where id_barang = '{addcart_id}'")
+        qrcodebarang = cursor.fetchall()
+        print(qrcodebarang)
+
+            
+            # session['LEVEL'] = satudata['level']
+            # session['USER_KETERANGAN'] = satudata['id_jkdt']
+            # return Response("data ditemukan oleh server", status=200)
+    
+        return render_template("qrcode.html",qrcodebarang=qrcodebarang)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

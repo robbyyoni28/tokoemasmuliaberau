@@ -360,7 +360,7 @@
     
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-12 ">
           <div class="card">
             <div class="card-body p-3">
               <h1>Barang</h1>
@@ -445,66 +445,70 @@
                   <!-- <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button> -->
                 </div>
               </div>
-             <div class="table-responsive w-100 d-block d-md-table">
-              <table id="example" class="table" >
-                <thead>
-                  <tr class="table-primary ">
-                    <th>ID Barang</th>
-                    <th>Foto Barang</th>
-                    <th>Barcode Barang</th>
-                    <th>Nama Barang</th>
-                    <!-- <th>Merk</th> -->
-                    <th>Gram</th>
-                    <!-- <th>Satuan Barang</th> -->
-                    <!-- <th>Stok</th> -->
-                    <th>Tanggal Input</th>
-                    <th>Tanggal Update</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for row in barang %}
-                  <tr>
-                    <td>{{row['id_barang']}}</td>
-                    <td><img src="/static/uploads/{{row['filename']}}" alt="" style="height: 100px; width: fit-content;"></td>
-                    <td><img src="/static/uploads/{{row['qrcode']}}" alt="" style="height: 100px; width: fit-content;"></td>
-                    <td>{{row['nama_barang']}}</td>
-                    <!-- <td>{{row['merk']}}</td> -->
-                    <td>{{row['gram']}}</td>
-                    <!-- <td>{{row['satuan_barang']}}</td> -->
-                    <!-- <td>{{row['stok']}}</td> -->
-                    <td>{{row['tgl_input']}}</td>
-                    <td>{{row['tgl_update']}}</td>
-                    <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
-                      <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
-                      <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                  
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>ID Barang</th>
-                    <th>Foto Barang</th>
-                    <th>Barcode Barang</th>
-                    <th>Nama Barang</th>
-                    <!-- <th>Merk</th> -->
-                    <th>Gram</th>
-                    <!-- <th>Satuan Barang</th> -->
-                    <!-- <th>Stok</th> -->
-                    <th>Tanggal Input</th>
-                    <th>Tanggal Update</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
-              </table>  
-            </div>
+              <div class="container-fluid">
+                <div class="table-responsive" style="overflow: hidden;">
+                  <table id="example" class="table" >
+                    <thead>
+                      <tr class="table-primary">
+                        <th>ID Barang</th>
+                        <th>Foto Barang</th>
+                        <th>Barcode Barang</th>
+                        <th>Nama Barang</th>
+                        <!-- <th>Merk</th> -->
+                        <th>Gram</th>
+                        <!-- <th>Satuan Barang</th> -->
+                        <!-- <th>Stok</th> -->
+                        <th>Input/Update</th>
+                        <!-- <th>Tanggal Update</th> -->
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in barang %}
+                      <tr>
+                        <td>{{row['id_barang']}}</td>
+                        <td><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
+                        <td><img src="/static/uploads/{{row['qrcode']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
+                        <td>{{row['nama_barang']}}</td>
+                        <!-- <td>{{row['merk']}}</td> -->
+                        <td>{{row['gram']}}</td>
+                        <!-- <td>{{row['satuan_barang']}}</td> -->
+                        <!-- <td>{{row['stok']}}</td> -->
+                        <td>{{row['tgl_input']}}</td>
+                        <!-- <td>{{row['tgl_update']}}</td> -->
+                        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
+                          <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
+                          <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
+                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="printqrcode('{{row['id_barang']}}');frames['frame'].print(); " ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                      
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>ID Barang</th>
+                        <th>Foto Barang</th>
+                        <th>Barcode Barang</th>
+                        <th>Nama Barang</th>
+                        <!-- <th>Merk</th> -->
+                        <th>Gram</th>
+                        <!-- <th>Satuan Barang</th> -->
+                        <!-- <th>Stok</th> -->
+                        <th>Input/Update</th>
+                        <!-- <th>Tanggal Update</th> -->
+                        <th>Action</th>
+                      </tr>
+                    </tfoot>
+                  </table>  
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <iframe src="/printqrcode" style="display:none;" name="frame"></iframe>
     <div class="modal fade" id="updatemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -568,55 +572,56 @@
       </div>
     </div>
    
-<div class="container-fluid py-4">
-  <div class="row">
-    <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="table-responsive w-100 d-block d-md-table">
-          <h1>Penjualan</h1>
-          
-          <table id="example2" class="table col-xl-12 col-sm-6 mb-xl-0 mb-4" style="width:100%">
-            <thead>
-              <tr class="table-info">
-                <th>Id Barang</th>
-                <th>Pekerja</th>
-                <th>Jumlah</th>
-                <th>Total</th>
-                <th>Tanggal Input</th>
-                <!-- <th>Salary</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in penjualan %}
-              <tr>
-                <td>{{row['id_barang']}}</td>
-                <td>{{row['nm_member']}}</td>
-                <td>{{row['jumlah']}}</td>
-                <td>{{row['total']}}</td>
-                <td>{{row['tanggal_transaksi']}}</td>
-                <!-- <td>$320,800</td> -->
-              </tr>
-              {% endfor %}
+   <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+            
+            <h1>Penjualan</h1>
+            <div class="table-responsive" style="overflow: hidden;">
               
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>Id Barang</th>
-                <th>Pekerja</th>
-                <th>Jumlah</th>
-                <th>Total</th>
-                <th>Tanggal Input</th>
-                <!-- <th>Salary</th> -->
-              </tr>
-            </tfoot>
-          </table>  
-        
+              <table id="example2" class="table" >
+                <thead>
+                  <tr class="table-info">
+                    <th>Id Barang</th>
+                    <th>Pekerja</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Input/Update</th>
+                    <!-- <th>Salary</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in penjualan %}
+                  <tr>
+                    <td>{{row['id_barang']}}</td>
+                    <td>{{row['nm_member']}}</td>
+                    <td>{{row['jumlah']}}</td>
+                    <td>{{row['total']}}</td>
+                    <td>{{row['tanggal_transaksi']}}</td>
+                    <!-- <td>$320,800</td> -->
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Id Barang</th>
+                    <th>Pekerja</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Tanggal Input</th>
+                    <!-- <th>Salary</th> -->
+                  </tr>
+                </tfoot>
+              </table>  
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
     <!-- End Navbar -->
@@ -1162,12 +1167,18 @@
   </script>
   <script>
     $(document).ready(function () {
-    $('#example').DataTable();
+    $('#example').DataTable({
+      "scrollY": false,
+      "scrollX": false
+    });
 });
   </script>
   <script>
     $(document).ready(function () {
-    $('#example2').DataTable();
+    $('#example2').DataTable({
+      "scrollY": false,
+      "scrollX": false
+    });
 });
   </script>
   <!-- <script>
@@ -1183,14 +1194,15 @@
   <script>
     const myElement = document.getElementById("id_barang_sebelumnya").value;
     
-    console.log(myElement)
+
+
     var ret = myElement.replace('BR','')  
     // ret ??= 0;
     // test = ret || 0
     // console.log(test)
-    tambah = parseInt(ret)+1
-    console.log(tambah); 
-    document.getElementById("id_barang").value = "BR"+tambah
+    // tambah = parseInt(ret)+1
+    // console.log(tambah); 
+    document.getElementById("id_barang").value = "BR-"+ Math.random().toString().substr(2, 6)
 
     </script>
     <script>
@@ -1268,7 +1280,7 @@
     update_idbarang = document.getElementById('upd_id_barang').value
     update_namabarang = document.getElementById('upd_nama_barang').value
     //update_merk= document.getElementById('upd_merk_barang').value
-    update_hargajual = document.getElementById('upd_gram').value
+    update_gram = document.getElementById('upd_gram').value
     //update_satuan = document.getElementById('upd_satuan_barang').value
     //update_stok = document.getElementById('upd_stok_barang').value
     update_filename = document.getElementById('mdl_update_file').value
@@ -1315,7 +1327,32 @@
 }
   
 </script>
+<script>
+  function printqrcode(id_barang){
+    update_idbarang = document.getElementById('upd_id_barang').value = id_barang
+    console.log(update_idbarang)
+    form_update = {"upd_id_barang" : update_idbarang}
+    var XHR = new XMLHttpRequest()
+    XHR.addEventListener("load", tampilkanrespon)
+    XHR.open("POST","/printqrcode")
+    XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
+    XHR.send(JSON.stringify(form_update))
+    
+    function tampilkanrespon() {
+        console.log(this.responseText)
+        if(XHR.status == 200){
+            window.location.href = "/table"
+        }
+        else{
+            alert("data tidak masuk")
+        }
+    }
+}
+</script>
 
+<script>
+
+</script>
 </body>
 
 </html>
