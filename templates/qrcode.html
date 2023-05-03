@@ -65,7 +65,7 @@ img {
     </style>
     <body>
         <div class="ticket">
-            {% for row in barang %}
+            {% for row in qrcodebarang %}
             <img src="/static/uploads/{{row['qrcode']}}" alt="Logo">
             {% endfor %}
             <p class="centered">RECEIPT EXAMPLE

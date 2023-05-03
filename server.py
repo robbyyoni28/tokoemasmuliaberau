@@ -213,12 +213,16 @@ def billing():
         cursor.execute(f"SELECT SUM(jumlah) AS jumlah FROM tb_cart")
         jumlah = cursor.fetchall()
         print(jumlah)
+
+        cursor.execute(f"SELECT SUM(harga_jual2) AS sub FROM tb_cart")
+        sub = cursor.fetchall()
+        print(sub)
             
             # session['LEVEL'] = satudata['level']
             # session['USER_KETERANGAN'] = satudata['id_jkdt']
             # return Response("data ditemukan oleh server", status=200)
     
-    return render_template("billing.html",sess_data=session, barang=barang, cart=cart, gram=gram, jumlah=jumlah)
+    return render_template("billing.html",sess_data=session, barang=barang, cart=cart, gram=gram, jumlah=jumlah,sub=sub)
 
 @app.route("/totalan", methods=["GET", 'POST'])
 def totalan():
@@ -236,6 +240,41 @@ def totalan():
                 return jsonify("data tidak ditemukan oleh server", status=404)
             else:
                 return jsonify({"jumlah":jumlah})
+
+@app.route("/sub", methods=["GET", 'POST'])
+def sub():
+    # Access the identity of the current user with get_jwt_identity
+    if request.method == 'GET':
+
+        connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT SUM(harga_jual2) AS sub FROM tb_cart")
+            sub = cursor.fetchall()
+            print(sub)
+
+        # variabel koneksi tersebut kemudian di gunakan pada konteks with berikut sehingga pada blok with kita dapat mengakses variabel koneksi untuk kemudian kita gunakan untuk operasi CRUD ke DB
+            if sub is None:
+                return jsonify("data tidak ditemukan oleh server", status=404)
+            else:
+                return jsonify({"sub":sub})
+
+@app.route("/cutoff", methods=["GET", 'POST'])
+def cutoff():
+    # Access the identity of the current user with get_jwt_identity
+    if request.method == 'GET':
+
+        connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT SUM(potongan_harga2) AS cutoff FROM tb_cart")
+            cutoff = cursor.fetchall()
+            print(cutoff)
+
+        # variabel koneksi tersebut kemudian di gunakan pada konteks with berikut sehingga pada blok with kita dapat mengakses variabel koneksi untuk kemudian kita gunakan untuk operasi CRUD ke DB
+            if cutoff is None:
+                return jsonify("data tidak ditemukan oleh server", status=404)
+            else:
+                return jsonify({"cutoff":cutoff})
+
 
 @app.route('/transaksi', methods=['GET','POST'])
 def transaksi():
@@ -336,7 +375,9 @@ def addcart():
         addcart_nama = request.form['upd_nama_barang']
         addcart_gram = request.form['gram_barang']
         addcart_hargajual = request.form['harga_jual']
+        addcart_hargajual2 = request.form['harga_jual2']
         addcart_potonganharga = request.form['potongan_harga']
+        addcart_potonganharga2 = request.form['potongan_harga2']
         addcart_tglinput = request.form['mdl_input']
         addcart_tglupdate = request.form['mdl_update']
         addcart_qrcode = request.form['qr_code']
@@ -348,27 +389,31 @@ def addcart():
        
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,harga_jual,qty, tanggal_input, tanggal_update, qrcode, potongan_harga, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga, addcart_total, addcart_removerupiah))
+        cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
         connection.commit()
         return redirect(url_for('billing'))
 
 
 @app.route('/printqrcode', methods=['GET','POST'])
-def printqrcode():
+def printqrcode(id_barang):
+    
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        request.form = request.json
+        # request.form = request.json
         addcart_id = request.form['upd_id_barang']
         cursor.execute(f"SELECT * FROM barang where id_barang = '{addcart_id}'")
         qrcodebarang = cursor.fetchall()
         print(qrcodebarang)
-
+        # if qrcodebarang is None:
+        #     return jsonify("data tidak ditemukan oleh server", status=404)
+        # else:
+        #     return jsonify({"qrcodebarang":qrcodebarang})
             
-            # session['LEVEL'] = satudata['level']
-            # session['USER_KETERANGAN'] = satudata['id_jkdt']
-            # return Response("data ditemukan oleh server", status=200)
+        #     session['LEVEL'] = satudata['level']
+        #     session['USER_KETERANGAN'] = satudata['id_jkdt']
+        #     return Response("data ditemukan oleh server", status=200)
     
-        return render_template("qrcode.html",qrcodebarang=qrcodebarang)
+        return render_template("qrcode.html", qrcodebarang=qrcodebarang)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

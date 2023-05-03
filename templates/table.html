@@ -37,7 +37,19 @@
   <link href="/static/assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="/static/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+  <style type="text/css">
+/* 
+body > *:not(.printableArea) {
+    display: none;
+}
+
+
+body > .printableArea {
+    display: block;
+} */
+    </style>
 </head>
+
 
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -479,7 +491,7 @@
                         <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
                           <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                           <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
-                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="printqrcode('{{row['id_barang']}}');frames['frame'].print(); " ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
+                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['id_barang']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
                         </td>
                       </tr>
                       {% endfor %}
@@ -1144,6 +1156,239 @@
       </div>
     </div>
   </div>
+</div>
+<style>
+  #hidden_div{display: none;}
+</style>
+<div id="printdiv">
+  <div id="hidden_div">
+    
+        <style>
+            /* * {
+        font-size: 12px;
+        font-family: 'Times New Roman';
+    }
+    
+    td,
+    th,
+    tr,
+    table {
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    
+    td.description,
+    th.description {
+        width: 100px;
+        align-content: center;
+        max-width: 100px;
+        word-break: break-all;
+    }
+    
+    td.quantity,
+    th.quantity {
+        width: 150px;
+        align-content: center;
+        max-width: 150px;
+        word-break: break-all;
+    }
+    
+    td.price,
+    th.price {
+        width: 40px;
+        max-width: 40px;
+        word-break: break-all;
+    }
+    
+    .centered {
+        text-align: center;
+        align-content: center;
+    }
+    
+    .ticket {
+        width: 155px;
+        max-width: 155px;
+    }
+    
+    img {
+        max-width: inherit;
+        width: inherit;
+    }
+    
+    @media print {
+        .hidden-print,
+        .hidden-print * {
+            display: none !important;
+        }
+    } */
+    /* body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    width: 5.000000cm;
+    height: 2.200000cm;
+        } */
+        @page { size: auto;  margin: 0mm; }
+        @media print {
+        .label {
+            margin: 5px;
+        }
+}
+    .label{
+    margin: 0;
+    padding-top: 10.000000px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 10.000000px;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    text-align: center;
+    vertical-align: baseline;
+    background: transparent;
+    width: 400px;
+    height: 200px;
+    align-items: center;
+    align-content: center;
+
+    font-family: Century Gothic;
+    font-size: 15px;
+    font-weight: bold;
+
+    float: left;
+
+    text-align: Left;
+    overflow: hidden;
+        }
+    .page-break  {
+        clear: left;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        display:block;
+        page-break-after:always;
+        }
+    .pharmacyBlock {
+        display:block;
+        text-align: center;
+    }
+    .pharmacyLogo {
+      margin-left: 2.000000px;
+      display: inline-block;
+      width: 150.000000px;
+      height: 150.000000px;
+    }
+    .pharmacyname  {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+
+        display:inline-block;
+        font-family: Century Gothic;
+        font-size: 12.000000px;
+        line-height: 5px;
+        }
+    .descriptionvalue  {
+        margin: 0;
+        /* margin-left: 8%; */
+        align-items: center;
+        align-content: center;
+        text-align: center;
+        }
+    .pricevalue  {
+      
+        margin: 0;
+        /* margin-left: 5px;  */
+        align-items: center;
+        align-content: center;
+        text-align: center;
+        /* align-items: center;
+        /* margin-top: 5.000000%;
+        padding: 0;
+        border: 0;
+        outline: 0;
+
+        display:block;
+        font-family: Century Gothic;
+        font-size: 12.000000px;
+        line-height: 5px; */
+        }
+        .pricevalue2  {
+      
+      margin: 0;
+      /* margin-left: 5px;  */
+      align-items: center;
+      align-content: center;
+      text-align: center;
+      /* align-items: center;
+      /* margin-top: 5.000000%;
+      padding: 0;
+      border: 0;
+      outline: 0;
+
+      display:block;
+      font-family: Century Gothic;
+      font-size: 12.000000px;
+      line-height: 5px; */
+      }
+    .origindate  {
+        margin: 0;
+        margin-left: 0%;
+        margin-top: 5.000000%;
+        padding: 0;
+        border: 0;
+        outline: 0;
+
+        display:block;
+        font-family: Century Gothic;
+        font-size: 9.000000px;
+        line-height: 5px;
+        }
+        </style>
+        <body>
+           
+<body>
+  
+  <div class="label">
+    <span class="pharmacyBlock">
+      <!-- <p class="pharmacyname">STORE PHARMACY</p> -->
+      <img id="qrcodeprint" class="pharmacyLogo" />
+    </span>
+    <p class="descriptionvalue" id="id_barcode"> </p>
+    <p class="pricevalue" id="nama_barcode"></p>
+    <p class="pricevalue2" id="gram_barcode"></p>
+    <!-- <p class="origindate">AGENT310321 VAT: 0% Inv: 487021</p> -->
+  </div>
+  <!-- <div class="page-break"></div><div class="label">
+    <span class="pharmacyBlock">
+      <p class="pharmacyname">STORE PHARMACY</p>
+      <img src="https://i.imgur.com/L1Zfjan.jpeg" class="pharmacyLogo" />
+    </span>
+    <p class="descriptionvalue">RODOGYL X 20 TABS           *                                </p>
+    <p class="pricevalue">&euro;6.49</p>
+    <p class="origindate">AGENT310321 VAT: 0% Inv: 487021</p>
+  </div>
+  <div class="page-break"></div><div class="label">
+    <span class="pharmacyBlock">
+      <p class="pharmacyname">STORE PHARMACY</p>
+      <img src="https://i.imgur.com/L1Zfjan.jpeg" class="pharmacyLogo" />
+    </span>
+    <p class="descriptionvalue">MATERNA DHA 24X34G (NESTLE)                                  </p>
+    <p class="pricevalue">&euro;13.49</p>
+    <p class="origindate">AGENT310321 VAT: 0% Inv: 487021</p>
+  </div>
+  <div class="page-break"></div> -->
+</div>
+</div>
+ 
+    </body>
+</html>
   <!--   Core JS Files   -->
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -1334,7 +1579,7 @@
     form_update = {"upd_id_barang" : update_idbarang}
     var XHR = new XMLHttpRequest()
     XHR.addEventListener("load", tampilkanrespon)
-    XHR.open("POST","/printqrcode")
+    XHR.open("GET","/printqrcode")
     XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
     XHR.send(JSON.stringify(form_update))
     
@@ -1351,8 +1596,57 @@
 </script>
 
 <script>
+// function printPageArea(areaID){
+//     var printContent = document.getElementById(areaID).innerHTML;
+//     var myClock = document.getElementById('printable').style.display = 'block'
+//     var originalContent = document.body.innerHTML;
+//     document.body.innerHTML = printContent;
+//     window.print();
+//     document.body.innerHTML = originalContent;
+    // function tampilkanrespon() {
+    //     console.log(this.responseText)
+    //     if(XHR.status == 200){
+    //         window.location.href = "/table"
+    //     }
+    //     else{
+    //         alert("data tidak masuk")
+    //     }
+    // }
+// }
 
+    
+    
+
+function myPrint(qrcode,nama_barang, id_barang, gram){
+  // document.getElementById('coba').innerHTML = " <img src = "+id_barang+" alt = 'infinix'>";
+    // console.log(test)
+    
+    document.getElementById("qrcodeprint").src = "https://tokoemasmuliaberau.com/static/uploads/"+qrcode
+    document.getElementById("id_barcode").innerHTML = id_barang
+    document.getElementById("nama_barcode").innerHTML = nama_barang
+    document.getElementById("gram_barcode").innerHTML = gram+" gram"
+    var r = confirm("Do you want to open the print dialouge now?");
+      if (r == true) {
+        var myPrintContent = document.getElementById('printdiv');
+    var myPrintWindow = window.open('left=300,top=100,width=400,height=400');
+    myPrintWindow.document.write(myPrintContent.innerHTML);
+    myPrintWindow.document.getElementById('hidden_div').style.display='block'
+    // myPrintWindow.document.close();
+    // myPrintWindow.focus();
+    myPrintWindow.print();
+    // myPrintWindow.close();    
+    // return false;
+      } else {
+        // closes alert
+      }
+    // windowUrl = 'https://tokoemasmuliaberau.com/'
+   
+
+    }
+    
 </script>
+
+ 
 </body>
 
 </html>
