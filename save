@@ -764,3 +764,54 @@ width: inherit;
   </div>
   <!-- <button id="btnPrint" class="hidden-print">Print</button> -->
   <script src="script.js"></script>
+
+  //  let items = {
+    //           id : addcart_id,
+    //           filename: addcart_filename,
+    //           nama: addcart_nama
+    //       }
+  
+    //       let itemsList = []
+  
+    //       const getCarStorage = localStorage.getItem('productsList')
+    //       if(getCarStorage){
+    //           itemsList = JSON.parse(localStorage.getItem('productsList'))
+    //           itemsList.push(items)
+    //           localStorage.setItem('productsList', JSON.stringify(itemsList))
+    //           console.log(localStorage.productList)
+    //       }else{
+    //           itemsList.push(items)
+    //           localStorage.setItem('productsList', JSON.stringify(itemsList))
+    //       }
+
+
+    <!-- <script>
+  function remove(){
+    localStorage.clear();
+  }
+</script> -->
+ 
+<!-- <script>
+var str = localStorage.getItem("productsList");
+// const str = localStorage.getItem('array');
+
+// convert JSON string to relevant object
+const parsedArray = JSON.parse(str);
+// var testing = Object.keys(parsedArray).map(function(k){return parsedArray[k]}).join(",");
+// console.log(testing)
+var arrayLength = parsedArray.length;
+for (var i = 0; i < arrayLength; i++) {
+    // console.log(parsedArray[i].nama);
+    var array = parsedArray[i].nama
+    const output = Object.keys(array => text).join(', ');
+    // var str1 = array.toString();
+    // str2 =  array.join(",");
+    // str2 = Object.keys(array).map(function(k){return array[k]}).join(",");
+    console.log(output)
+    // var str2 = String(arr);
+    //Do something
+}
+// console.log(parsedArray.nama);
+// console.log(index)
+
+</script> -->

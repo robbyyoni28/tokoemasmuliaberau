@@ -486,7 +486,7 @@
                     <label for="staticEmail" class="col-sm-4 col-form-label">Barcode</label>
                     <div class="col-sm-4">
                          <!-- <input type="text" readonly class="form-control" id="staticEmail" value=""> -->
-                         <button id="button-addon3" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i></button>
+                         <button id="button-addon3" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search" aria-hidden="true"></i></button>
                        
                     </div>
                     
@@ -837,8 +837,8 @@
                         <td >{{row['nama_barang']}}</td>
                         <td>{{row['gram']}}</td>
                         <td>{{row['qty']}}</td>
-                        <td>{{row['harga_jual']}}</td>
-                        <td>{{row['potongan_harga']}}</td>
+                        <td>Rp. {{row['harga_jual']}}</td>
+                        <td>Rp. {{row['potongan_harga']}}</td>
                         <td>{{row['total']}}</td>
                         <td>   <a type="button" class="btn btn-danger" href="/deletecart/{{ row['id_barang'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a></td>
                       </tr>
@@ -1398,24 +1398,7 @@ $( document ).ready(function() {
    
    // add_nik = document.getElementById('nik').value
    
-   let items = {
-            id : addcart_id,
-            filename: addcart_filename,
-            nama: addcart_nama
-        }
-
-        let itemsList = []
-
-        const getCarStorage = localStorage.getItem('productsList')
-        if(getCarStorage){
-            itemsList = JSON.parse(localStorage.getItem('productsList'))
-            itemsList.push(items)
-            localStorage.setItem('productsList', JSON.stringify(itemsList))
-            console.log(localStorage.productList)
-        }else{
-            itemsList.push(items)
-            localStorage.setItem('productsList', JSON.stringify(itemsList))
-        }
+ 
 
 
 
@@ -1454,20 +1437,31 @@ $( document ).ready(function() {
  }
  </script>
 <script>
-  function remove(){
-    localStorage.clear();
-  }
-</script>
- 
-<script>
-var str = localStorage.getItem("productsList");
-// const str = localStorage.getItem('array');
+var req = new XMLHttpRequest();
+req.responseType = 'json';
+req.open('GET', 'https://tokoemasmuliaberau.com/cartapi');
+req.onload  = function() {
+   var jsonResponse = req.response.cart;
+   var cartarray =  jsonResponse
+  //  const output = cartarray.map(el => el.text).join(', ');
+  //  console.log(cartarray)
+  //  console.log(cartarray.id_barang)
+   console.log(cartarray.map(u => u.id_barang).join(', '))
+   console.log(cartarray.map(u => u.nama_barang).join(', '))
+   console.log(cartarray.map(u => u.gram).join(', '))
+   console.log(cartarray.map(u => u.potongan_harga).join(', '))
 
-// convert JSON string to relevant object
-const parsedArray = JSON.parse(str);
 
-console.log(parsedArray[0].id);
-// console.log(index)
+   for(var i = 0; i < cartarray.length; i++) {
+    // console.log(cartarray[i]);
+    var coba = cartarray[i].nama_barang
+    var str1 =  coba
+    console.log(str1)// Gives you "42,55"
+    // var str2 = String(arr);
+}
+   // do something with jsonResponse
+};
+req.send(null);
 
 </script>
 </body>

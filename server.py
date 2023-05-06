@@ -11,12 +11,14 @@ from flask_bootstrap import Bootstrap
 import qrcode
 import image
 from flask_qrcode import QRcode
+import pdfkit
 
 # from datetime import *
 import datetime
 
 app = Flask(__name__)
 app.secret_key = "fVck_1D34LiS"
+app.config['PROPAGATE_EXCEPTIONS'] = True
 UPLOAD_FOLDER = 'static/uploads/'
 # UPLOAD_FOLDER_PERATURAN = 'static/uploads_peraturan/'
 app.secret_key = "fVck_1D34LiS"
@@ -391,17 +393,20 @@ def addcart():
     with connection.cursor() as cursor:
         cursor.execute(f"INSERT INTO tb_cart (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
         connection.commit()
+
+        # cursor.execute(f"INSERT INTO tb_penjualan (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
+        # connection.commit()
         return redirect(url_for('billing'))
 
 
 @app.route('/printqrcode', methods=['GET','POST'])
-def printqrcode(id_barang):
+def printqrcode():
     
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
         # request.form = request.json
-        addcart_id = request.form['upd_id_barang']
-        cursor.execute(f"SELECT * FROM barang where id_barang = '{addcart_id}'")
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT * FROM barang")
         qrcodebarang = cursor.fetchall()
         print(qrcodebarang)
         # if qrcodebarang is None:
@@ -414,6 +419,36 @@ def printqrcode(id_barang):
         #     return Response("data ditemukan oleh server", status=200)
     
         return render_template("qrcode.html", qrcodebarang=qrcodebarang)
+
+@app.route('/cartapi', methods=['GET','POST'])
+def cartapi():
+    
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT * FROM tb_cart")
+        cart = cursor.fetchall()
+        print(cart)
+        
+        if cart is None:
+            return jsonify("data tidak ditemukan oleh server", status=404)
+        else:
+            return jsonify({"cart":cart})
+
+
+
+@app.route("/printbilling")
+def printbilling():
+    name = "Giovanni Smith"
+    html = render_template(
+        "qrcode.html",
+        name=name)
+    pdf = pdfkit.from_string(html, False)
+    response = make_response(pdf)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "inline; filename=output.pdf"
+    return response
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
