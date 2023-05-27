@@ -13,16 +13,21 @@ import image
 from flask_qrcode import QRcode
 import pdfkit
 
+
+
 # from datetime import *
 import datetime
 
 app = Flask(__name__)
+# wkhtmltopdf = Wkhtmltopdf(app)
 app.secret_key = "fVck_1D34LiS"
 app.config['PROPAGATE_EXCEPTIONS'] = True
 UPLOAD_FOLDER = 'static/uploads/'
 # UPLOAD_FOLDER_PERATURAN = 'static/uploads_peraturan/'
 app.secret_key = "fVck_1D34LiS"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PDF_FOLDER'] = 'static/pdf/'
+app.config['TEMPLATE_FOLDER'] = 'templates/'
 # app.config['UPLOAD_FOLDER_PERATURAN'] = UPLOAD_FOLDER_PERATURAN
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'xls', 'xml','doc','csv','dot','exe','rar', 'zip','docx'}
 
@@ -314,6 +319,7 @@ def transaksi():
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
             cursor.execute(f"INSERT INTO barang (id_barang, nama_barang, gram,tgl_input, filename, qrcode) VALUES (%s, %s, %s, %s, %s, %s)",(upload_idbarang,upload_nmbarang, upload_grambarang, iso8601, new_filename, new_filenamebarcode))
+            
         connection.commit()
 
 #print('upload_image filename: ' + filename)
@@ -330,7 +336,6 @@ def transaksi():
 def profil():
     # if len(session) == 0:
     #     return redirect('/?msg=SESSION_KOSONG')
-    
     return render_template("profile.html",sess_data=session)
 
 
@@ -387,7 +392,6 @@ def addcart():
         addcart_removerupiah = request.form['jumlah_aja']
         addcart_qty = request.form['qty']
 
-
        
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
@@ -398,6 +402,43 @@ def addcart():
         # connection.commit()
         return redirect(url_for('billing'))
 
+
+@app.route('/transaksisukses', methods=['GET','POST'])
+def transaksisukses():
+    if len(session) == 0:
+        return redirect('/?msg=SESSION_KOSONG')
+    if request.method == 'POST':
+        iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        request.form = request.json
+        namabrg = request.form['namabrg']
+        filenamebrg = request.form['filenamebrg']
+        idbrg = request.form['idbrg']
+        grambrg = request.form['grambrg']
+        hargajualbrg = request.form['hargajualbrg']
+        hargajual2brg = request.form['hargajual2brg']
+        qtybrg = request.form['qtybrg']
+        tglinputbrg = request.form['tglinputbrg']
+        qrcodebrg = request.form['qrcodebrg']
+        potonganhargabrg = request.form['potonganhargabrg']
+        potonganharga2brg = request.form['potonganharga2brg']
+        totalbrg = request.form['totalbrg']
+        jumlahbrg = request.form['jumlahbrg']
+        codeinvoice = request.form['codeinvoice']
+        namapembelibrg = request.form['namapembelibrg']
+        grandtotalbrg = request.form['grandtotalbrg']
+        id_member = '1'
+        qrcodetransaksi = 'no'
+        print(idbrg)
+
+       
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        cursor.execute(f"INSERT INTO penjualan (id_barang,id_member,filename,nama_konsumen,id_transaksi, harga_jual,jumlah,potongan_harga, total, gram,tanggal_transaksi,qrcode,qrcode_transaksi,nama_barang,grand_total ) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (idbrg,id_member, filenamebrg, namapembelibrg, codeinvoice,hargajualbrg,jumlahbrg,potonganhargabrg, totalbrg, grambrg, iso8601, qrcodebrg,qrcodetransaksi, namabrg, grandtotalbrg))
+        connection.commit()
+
+        # cursor.execute(f"INSERT INTO tb_penjualan (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
+        # connection.commit()
+        return redirect(url_for('billing'))
 
 @app.route('/printqrcode', methods=['GET','POST'])
 def printqrcode():
@@ -440,15 +481,14 @@ def cartapi():
 
 @app.route("/printbilling")
 def printbilling():
-    name = "Giovanni Smith"
-    html = render_template(
-        "qrcode.html",
-        name=name)
-    pdf = pdfkit.from_string(html, False)
-    response = make_response(pdf)
-    response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = "inline; filename=output.pdf"
-    return response
+    iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+    htmlfile = app.config['TEMPLATE_FOLDER'] + 'qrcode.html'
+    pdffile = app.config['PDF_FOLDER'] +  iso8601 +'.pdf'
+    print(pdffile)
+    pdfkit.from_string(htmlfile, pdffile, options={"enable-local-file-access": ""})
+    return render_template("qrcode.html")
+    # return '''Click here to open the <a href="https://tokoemasmuliaberau.com/static/pdf/demo.pdf">pdf</a>.'''
+   
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

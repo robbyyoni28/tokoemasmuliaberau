@@ -815,3 +815,41 @@ for (var i = 0; i < arrayLength; i++) {
 // console.log(index)
 
 </script> -->
+
+// var testing = document.getElementById('time').value 
+      // var tanggaltransaks = document.getElementById('ct').value 
+      //    var namapembeli = document.getElementById('namapembeli').value 
+      // var grandtotalan = document.getElementById('grandtotal').value
+      // var subtotalan = document.getElementById('sub_total').value
+      
+      
+      // localStorage.setItem('kodeinvoice', testing)
+      // localStorage.setItem('tanggaltransaksi', tanggaltransaks)
+      // localStorage.setItem('namapembeli', namapembeli)
+      //    localStorage.setItem('grandtotal', grandtotalan)
+      //   localStorage.setItem('sub_total', subtotalan)
+      
+      
+      // console.log(testing)
+      // console.log(tanggaltransaks)
+      // console.log(grandtotalan)
+      // document.getElementById("invoiceprint").innerHTML = 'Invoice: #'+testing
+      // document.getElementById("tanggaltransaksi").innerHTML = tanggaltransaks
+      // document.getElementById("nama_pembeli").innerHTML = namapembeli
+      // document.getElementById("totalnya").innerHTML = grandtotalan
+      // document.getElementById("totalsub").innerHTML = subtotalan
+      // var element = document.getElementById('hidden_div')
+      //    wedeh = element.css("display", "block")
+      //   var clonedElement = element.cloneNode(true);
+      
+      // change display of cloned element 
+      // $(clonedElement).css("display", "block");
+      
+      // Choose the clonedElement and save the PDF for our user.
+      //html2pdf(wedeh);
+      
+      // remove cloned element
+      // clonedElement.remove();
+
+
+      SELECT DISTINCT(s.id_transaksi),s.grand_total, s.tanggal_transaksi  from penjualan s
