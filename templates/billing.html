@@ -60,7 +60,7 @@
   <link id="pagestyle" href="/static/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show  bg-gray-100"  onload="display_ct();">
+<body class="g-sidenav-show  bg-gray-100"  onload="display_ct();display_dt();">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -1633,12 +1633,31 @@
   
     
 </script>   
- 
+ <script>
+   function display_d(){
+
+      
+var refresh=1000; // Refresh rate in milli seconds
+mytime=setTimeout('display_dt()',refresh)
+}
+
+function display_dt() {
+var x = new Date().toLocaleString('en-GB')
+checkedNew = x.split('/').join("");
+checkedNew2 = checkedNew.split(',').join("");
+checkedNew3 = checkedNew2.split(' ').join("");
+checkedNew4 = checkedNew3.split(':').join("");
+
+// document.getElementById('ct').value = x;
+document.getElementById('time').value = "EMB"+checkedNew4;
+display_d();
+ }
+ </script>
   <script>
     var d = new Date().valueOf();
     var n = d.toString();
     console.log(d)
-    document.getElementById('time').value = "EMB"+d;
+    // document.getElementById('time').value = "EMB"+d;
     
     var result = '';
     var length = 32;
@@ -2155,8 +2174,8 @@ req.send(null);
         var kasir = document.getElementById('kasir').value 
         var tgl_nota = document.getElementById('ct').value 
         var number_phone = document.getElementById('numberphone').value
-
-
+        // str = codeinvoice.slice(0, -3);
+        // str = util.printd("yymmddHHMM", new Date()) + Math.random().toString().substring(2,4)
 
         
         

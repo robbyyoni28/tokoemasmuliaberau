@@ -389,9 +389,9 @@
         margin-top: 40px;
       margin-left: 130px;
     ">
-          {% for row in invoiceemb %}
+          {% for row in invoice %}
           {% if loop.index <= 1 %}
-          <span id="invoiceprint" >No.Nota&ensp;&ensp;&nbsp;: {{row['modifankamu']}}</span>
+          <span id="invoiceprint" >No.Nota&ensp;&ensp;&nbsp;: {{row['id_transaksi']}}</span>
           {% endif %}
           {% endfor %}
         </p>
@@ -607,9 +607,9 @@
        <div class="row">
             <div class="col">
                   <p style="margin-top: -10px;">
-                  {% for row in invoiceemb %}
+                  {% for row in invoice %}
                   {% if loop.index <= 1 %}
-                  <span id="invoiceprint" >No.Nota&ensp;&ensp;&nbsp;: {{row['modifankamu']}}</span>
+                  <span id="invoiceprint" >No.Nota&ensp;&ensp;&nbsp;: {{row['id_transaksi']}}</span>
                   {% endif %}
                   {% endfor %}
                 </p>
