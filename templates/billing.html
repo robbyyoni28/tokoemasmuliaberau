@@ -96,6 +96,7 @@
           <a class="nav-link  " href="/table">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                
                 <title>office</title>
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -109,7 +110,18 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Input Barang</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  " href="/invoice">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+                <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Laporan Penjualan</span>
           </a>
         </li>
         <li class="nav-item">
@@ -129,7 +141,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Penjualan</span>
           </a>
         </li>
         <!-- <li class="nav-item">
@@ -418,13 +430,19 @@
                   <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Kasir</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" id="staticEmail" value="{{sess_data['USER_FULL_NAME']}}">
+                      <input type="text" readonly class="form-control" id="kasir" value="{{sess_data['USER_FULL_NAME']}}">
                     </div>
                   </div>
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">CUSTOMER</label>
                     <div class="col-sm-6">
                       <input type="text" class="form-control" id="namapembeli" value="" >
+                    </div>
+                  </div>
+                  <div class="form-group row ">
+                    <label for="inputPassword" class="col-sm-4 col-form-label">No Hp</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="numberphone" value="" >
                     </div>
                   </div>
                 </div>
@@ -509,26 +527,7 @@
                 </div>
 
               </div>
-              <div class="card">
-                <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                <div class="card-body">
-                  <div class="form-group row ">
-                    <h2 for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Invoice</h2>
-                    <div class="col-sm-6">
-                         <input type="text" readonly  adonly class="form-control-plaintext font-weight-bold" id="time" value="">
-                        <!-- <h3 id="time"></h3> -->
-                       
-                    </div>
-                  </div>
-                  <div class="form-group row ">
-                    <!-- {% for row in jumlah %} -->
-                    <input type="text" class="form-control" id="invoice_mentah"  style="display: none;" value="{{row['jumlah']}}">
-                   <h2 id="total_invoice"></h2>
-
-                   <!-- {% endfor %} -->
-                  </div>
-               
-              </div>
+            
             </div>
             <div class="modal" id="exampleModalCenter" tabindex="-1">
               <div class="modal-dialog modal-xl">
@@ -544,12 +543,15 @@
                       <table id="example" class="table" >
                         <thead>
                           <tr  class="table-primary">
+                            <th>No</th>
                             <th>ID Barang</th>
                             <th>Foto Barang</th>
                             <!-- <th>Office</th> -->
                             <th>Nama Barang</th>
+                            <th> Kode QR </th>
                             <th>Gram</th>
-                            <th>Input/Update</th>
+                            <th>Kadar</th>
+                            <!-- <th>Input/Update</th> -->
                             <!-- <th>Tanggal Update</th> -->
                             <th>Add To Cart</th>
                           </tr>
@@ -557,17 +559,21 @@
                         <tbody>
                           {% for row in barang %}
                           <tr>
-                            <td>{{row['id_barang']}}</td>
+                            <td></td>
+                            <td>{{row['modifankamu']}}</td>
                             <td><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail"  alt="" style="height: 100px; width: fit-content;"></td>
                             <!-- <td><img src="/static/uploads/{{row['qrcode']}}" alt="" style="height: 100px; width: fit-content;"></td> -->
                             <td>{{row['nama_barang']}}</td>
+                            <td >{{row['kodeqr']}}</td>
                             <!-- <td>{{row['merk']}}</td> -->
                             <td>{{row['gram']}}</td>
+                            <td>{{row['kadar']}}</td>
+                            
                             <!-- <td>{{row['satuan_barang']}}</td> -->
                             <!-- <td>{{row['stok']}}</td> -->
-                            <td>{{row['tgl_input']}}</td>
+                            <!-- <td>{{row['tgl_input']}}</td> -->
                             <!-- <td>{{row['tgl_update']}}</td> -->
-                            <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showPickItem('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}','{{row['qrcode']}}')" data-dismiss="modal"><i class="fa fa-refresh" aria-hidden="true" > </i> Add To Cart</button>
+                            <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showPickItem('{{row['modifankamu']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}','{{row['qrcode']}}', '{{row['kadar']}}','{{row['kodeqr']}}')" data-dismiss="modal"><i class="fa fa-refresh" aria-hidden="true" > </i> Add To Cart</button>
                               <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                               <!-- <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a> -->
                             </td>
@@ -626,7 +632,8 @@
                               <input type="text" class="form-control" id="qr_code"  style="display: none;" value="">
                               <input type="text" class="form-control" id="user_transaksi"  style="display: none;" value="{{sess_data['USER_ID']}}">
                               <input type="text" class="form-control" id="jumlah_aja"  style="display: none;" value="">
-
+                              <input type="text" class="form-control" id="kodeqr"  style="display: none;" value="">
+                              <!-- <input type="text" class="form-control" id="kadar"  style="display: none;" value=""> -->
                               <input type="text" class="form-control" id="upd_id_barang" name="upd_id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
                             </div>
                             <!-- <div class="form-group col-md-6">
@@ -644,26 +651,26 @@
                               <input type="text" class="form-control" id="gram_barang" name="gram_barang" aria-describedby="emailHelp" onkeyup="hitung()" placeholder="Masukkan Gram Barang" readonly>
                             </div>
                             
-                            
                             <div class="form-group col-md-6">
+                              <label for="exampleInputEmail1">Kadar</label>
+                              <input type="text" class="form-control" id="kadar" name="kadar" aria-describedby="emailHelp" required readonly>
+                              <input type="text" class="form-control" id="potongan_harga2" name="harga_gram" aria-describedby="emailHelp"  placeholder="Masukkan Harga Jual" hidden>
+                            </div>
+                            <!-- <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Harga Jual</label>
                               <input type="text" class="form-control" id="harga_jual" name="harga_gram" aria-describedby="emailHelp" onkeyup="hitung()" placeholder="Masukkan Harga Jual" required >
                               <input type="text" class="form-control" id="harga_jual2" name="harga_gram" aria-describedby="emailHelp"  placeholder="Masukkan Harga Jual" hidden>
                               
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Qty</label>
                               <input type="text" class="form-control" id="qty" onkeyup="hitung()" name="qty" aria-describedby="emailHelp" placeholder="Masukkan  Qty" required >
                             </div>
-                            <div class="form-group col-md-6">
-                              <label for="exampleInputEmail1">Potongan Harga</label>
-                              <input type="text" class="form-control" id="potongan_harga" onkeyup="hitung()" name="potongan_harga" aria-describedby="emailHelp" placeholder="Masukkan Potongan Harga" required value="0">
-                              <input type="text" class="form-control" id="potongan_harga2" name="harga_gram" aria-describedby="emailHelp"  placeholder="Masukkan Harga Jual" hidden>
-                            </div>
+                           
                           
                             <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Total Harga</label>
-                              <input type="text" class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga" readonly>
+                              <input type="text" class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga" >
                             </div>
                             <!-- <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Tanggal Transaksi</label> -->
@@ -822,9 +829,11 @@
                         <th>Foto Barang</th>
                         <th>Nama Barang</th>
                         <th>Gram</th>
+                        <th>Kadar</th>
                         <th>Qty</th>
-                        <th>Harga Jual</th>
-                        <th>Potongan Harga</th>
+                        <th hidden>kodeqr</th>
+                        <!-- <th>Harga Jual</th> -->
+                        <!-- <th>Potongan Harga</th> -->
                         <th>Total</th>
                         <th>Delete</th>
                       </tr>
@@ -836,9 +845,11 @@
                         <td ><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
                         <td >{{row['nama_barang']}}</td>
                         <td>{{row['gram']}}</td>
+                        <td>{{row['kadar']}}</td>
                         <td>{{row['qty']}}</td>
-                        <td>Rp. {{row['harga_jual']}}</td>
-                        <td>Rp. {{row['potongan_harga']}}</td>
+                        <td hidden>{{row['kodeqr']}}</td>
+                        <!-- <td>Rp. {{row['harga_jual']}}</td> -->
+                        <!-- <td>Rp. {{row['potongan_harga']}}</td> -->
                         <td>{{row['total']}}</td>
                         <td>   <a type="button" class="btn btn-danger" href="/deletecart/{{ row['id_barang'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a></td>
                       </tr>
@@ -868,7 +879,7 @@
                       <!-- <input type="text" readonly class="form-control" id="sub_total" value=""> -->
                     </div>
                   </div>
-                  <div class="form-group row ">
+                  <!-- <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Potongan Harga</label>
                     <div class="col-sm-6">
                       <input type="text"  class="form-control" readonly id="cutoff">
@@ -879,28 +890,28 @@
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" id="grandtotal" value="">
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <!-- </div> -->
-              <div class="card">
-                <div class="card-body">
+              <!-- <div class="card"> -->
+                <!-- <div class="card-body"> -->
                   <!-- <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">Grand Total</label>
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" id="grandtotal" value="">
                     </div>
                   </div> -->
-                  <div class="form-group row ">
+                  <!-- <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Cash</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6"> -->
                          <!-- <input type="text" readonly class="form-control" id="staticEmail" value=""> -->
-                         <input type="text"  class="form-control" id="cash" onkeyup="hitung()" value="">
+                         <!-- <input type="text"  class="form-control" id="cash" onkeyup="hitung()" value=""> -->
                        
-                    </div>
+                    <!-- </div> -->
                     
-                  </div>
-                  <div class="form-group row ">
+                  <!-- </div> -->
+                  <!-- <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Change</label>
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" id="angsulnyabos" value="" >
@@ -909,15 +920,37 @@
                       <label for="exampleFormControlTextarea1">Note</label>
                       <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- <div class="col-sm-6">
                   <div class="form-group row ">
                     <button id="button-addon3" type="button" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> </button>
                   </div>
                 </div> -->
+                <!-- </div> -->
+                <div class="card">
+                  <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                  <div class="card-body">
+                    <div class="form-group row ">
+                      <h2 for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Invoice</h2>
+                      <div class="col-sm-6">
+                           <input type="text" readonly  adonly class="form-control-plaintext font-weight-bold" id="time" value="">
+                          <!-- <h3 id="time"></h3> -->
+                         
+                      </div>
+                    </div>
+                    <div class="form-group row ">
+                      <!-- {% for row in jumlah %} -->
+                      {% for row in sub %}
+                      <input type="text" class="form-control" id="invoice_mentah"  style="display: none;" value="{{row['sub_total']}}">
+                      {% endfor %}
+                     <h2 id="total_invoice"></h2>
+  
+                     <!-- {% endfor %} -->
+                    </div>
+                 
                 </div>
-
-              </div>
+                </div>
+              <!-- </div> -->
               <div class="card">
                 <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                 <div class="card-body">
@@ -933,7 +966,7 @@
                   <a class="btn btn-danger btn-lg btn-block fa fa-refresh" aria-hidden="true" href="{{ url_for('deleteallrow') }}" onclick="remove()">  Clear Cart</a>
                   </div>  
                   <div class="form-group row ">
-                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" Convert_HTML_To_PDF() " href="{{ url_for('deleteallrow') }}" ><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
+                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" Convert_HTML_To_PDF() "  href="{{ url_for('deleteallrowcart') }}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
                   </div>
                
                
@@ -1054,6 +1087,17 @@
 		<!-- <title>A simple, clean, and responsive HTML invoice template</title> -->
 
 		<style>
+      @page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  /* ... the rest of the rules ... */
+}
       .nama_toko{
         text-decoration: none;
         color: rgb(0, 0, 0);
@@ -1491,13 +1535,24 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
   <script>
     $(document).ready(function () {
-    $('#example').DataTable({
+      var t = $('#example').DataTable({
       responsive: true,
       pageLength : 5,
-    lengthMenu: [[5, 10, 20, -1], [5, 10, 20]]
+      lengthMenu: [[5, 10, 20, -1], [5, 10, 20]],
         // "paging": false, 
+      order: [[3, 'asc']],
+      "columnDefs": [
+        {"className": "dt-center", "targets": "_all"}
+      ]
         
     });
+     t.on('order.dt search.dt', function () {
+      let i = 1;
+
+      t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+          this.data(i++);
+      });
+  }).draw();
 });
   </script>
 <script>
@@ -1601,7 +1656,7 @@
     // document.getElementById('results').innerHTML = result;
    </script>
     <script>
-      var rupiah1 = document.getElementById("harga_jual");
+      var rupiah1 = document.getElementById("total_harga");
       rupiah1.addEventListener("keyup", function(e) {
         // tambahkan 'Rp.' pada saat form di ketik
         // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
@@ -1628,7 +1683,7 @@
     </script>
 
 
-<script>
+<!-- <script>
   var rupiah = document.getElementById("potongan_harga");
   rupiah.addEventListener("keyup", function(e) {
     // tambahkan 'Rp.' pada saat form di ketik
@@ -1653,9 +1708,9 @@
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : rupiah ?  rupiah : "";
   }
-</script>
+</script> -->
 
-<script>
+<!-- <script>
   var rupiah3 = document.getElementById("cash");
   rupiah3.addEventListener("keyup", function(e) {
     // tambahkan 'Rp.' pada saat form di ketik
@@ -1680,7 +1735,7 @@
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : rupiah ?  rupiah : "";
   }
-</script>
+</script> -->
   
 
   <script>
@@ -1776,11 +1831,11 @@ $( document ).ready(function() {
 
  </script> -->
 <script>
-  function showPickItem(id,id_barang, filename, nama_barang, gram,  tgl_input, tgl_update, qrcode) {
+  function showPickItem(modifankamu,filename, nama_barang, gram,  tgl_input, tgl_update, qrcode, kadar, kodeqr){
     // alert(`modal dimunculkann, dengan data nik=${nik} nama=${nama} `)
     $('#modal_pilih').modal('show')
-    document.getElementById('mdl_update_id').value = id
-        document.getElementById('upd_id_barang').value = id_barang
+    // document.getElementById('mdl_update_id').value = modifankamu
+        document.getElementById('upd_id_barang').value = modifankamu
         document.getElementById('upd_nama_barang').value = nama_barang
         document.getElementById('ini').value = filename
         document.getElementById('gram_barang').value = gram
@@ -1789,6 +1844,9 @@ $( document ).ready(function() {
         document.getElementById('mdl_update_file').value = filename
         document.getElementById('mdl_input').value = tgl_input
         document.getElementById("ini").src = "/static/uploads/"+filename
+        document.getElementById('kadar').value = kadar
+        document.getElementById('kodeqr').value = kodeqr
+
 
 
         
@@ -1799,22 +1857,25 @@ $( document ).ready(function() {
 
 <script>
    
-  function addTo(id,id_barang, filename, nama_barang, gram, tgl_input, tgl_update, qrcode) {
+  function addTo(modifankamu,filename, nama_barang, gram, tgl_input, tgl_update, qrcode, kadar, kodeqr) {
    addcart_id = document.getElementById('upd_id_barang').value 
    addcart_filename = document.getElementById('ini').value 
    addcart_nama = document.getElementById('upd_nama_barang').value 
    addcart_gram = document.getElementById('gram_barang').value 
-   addcart_hargaJual = document.getElementById('harga_jual').value
-   addcart_hargaJual2 = document.getElementById('harga_jual2').value
-   addcart_potonganharga = document.getElementById('potongan_harga').value
-   addcart_potonganharga2 = document.getElementById('potongan_harga2').value
+  //  addcart_hargaJual = document.getElementById('harga_jual').value
+  // addcart_hargaJual2 = document.getElementById('harga_jual2').value
+   //addcart_potonganharga = document.getElementById('potongan_harga').value
+   //addcart_potonganharga2 = document.getElementById('potongan_harga2').value
    addcart_tglinput = document.getElementById('mdl_input').value 
    addcart_tglupdate = document.getElementById('mdl_update').value 
    addcart_qrcode = document.getElementById('qr_code').value  
    addcart_total = document.getElementById('total_harga').value 
    addcart_qty = document.getElementById('qty').value
    addcart_jumlah = document.getElementById('jumlah_aja').value
-   
+   kadar = document.getElementById('kadar').value
+   const newhargaJual = addcart_total.replace(/\./g,'')
+   kodeqr = document.getElementById('kodeqr').value
+
    // add_nik = document.getElementById('nik').value
    
  
@@ -1823,7 +1884,7 @@ $( document ).ready(function() {
 
 
 
-   form_update = { "upd_id_barang" : addcart_id, "ini" : addcart_filename, "upd_nama_barang" :  addcart_nama , "gram_barang" : addcart_gram,"harga_jual":addcart_hargaJual,"harga_jual2":addcart_hargaJual2,"qty":addcart_qty, "potongan_harga":addcart_potonganharga,"potongan_harga2":addcart_potonganharga2, "mdl_input" : addcart_tglinput, "mdl_update" : addcart_tglupdate,  "qr_code" : addcart_qrcode, "total_harga":addcart_total, "jumlah_aja": addcart_jumlah}
+   form_update = { "upd_id_barang" : addcart_id, "ini" : addcart_filename, "upd_nama_barang" :  addcart_nama , "gram_barang" : addcart_gram,"qty":addcart_qty,  "mdl_input" : addcart_tglinput, "mdl_update" : addcart_tglupdate,  "qr_code" : addcart_qrcode, "total_harga":newhargaJual, "jumlah_aja": addcart_jumlah, "kadar": kadar, "kodeqr": kodeqr}
    
    var XHR = new XMLHttpRequest()
    XHR.addEventListener("load", tampilkanrespon)
@@ -1887,6 +1948,7 @@ req.onload  = function() {
     var potonganharga2brg = cartarray[i].potongan_harga2
     var totalbrg = cartarray[i].total
     var jumlahbrg = cartarray[i].jumlah
+    var kadar = cartarray[i].kadar
     var codeinvoice = document.getElementById('time').value 
     var namapembelibrg = document.getElementById('namapembeli').value
 
@@ -2061,7 +2123,7 @@ req.send(null);
       var data = await response.json();
       jsonResponse = data.cart
       var cartarray = jsonResponse
-
+      
       console.log(data.cart);
       
       // show(data);
@@ -2081,13 +2143,24 @@ req.send(null);
         var potonganharga2brg = cartarray[i].potongan_harga2
         var totalbrg = cartarray[i].total
         var jumlahbrg = cartarray[i].jumlah
+        var kodeqrbrg = cartarray[i].kodeqr
+        var kadarbrg = cartarray[i].kadar
+        console.log( kodeqrbrg)
         var codeinvoice = document.getElementById('time').value 
         var namapembelibrg = document.getElementById('namapembeli').value
-        var cash = document.getElementById('cash').value
-        var grandtotalbrg = document.getElementById('grandtotal').value
+      // var cash = document.getElementById('cash').value
+      //  var grandtotalbrg = document.getElementById('grandtotal').value 
+        var subtotalbrg = document.getElementById('sub_total').value 
+      //  var cutoff = document.getElementById('cutoff').value 
+        var kasir = document.getElementById('kasir').value 
+        var tgl_nota = document.getElementById('ct').value 
+        var number_phone = document.getElementById('numberphone').value
+
+
 
         
-        form_update = { "idbrg" :  idbrg , "namabrg" : namabrg, "filenamebrg" : filenamebrg, "grambrg" : grambrg,"hargajualbrg":hargajualbrg,"hargajual2brg":hargajual2brg, "qtybrg":qtybrg, "tglinputbrg":tglinputbrg, "qrcodebrg":qrcodebrg, "potonganhargabrg" : potonganhargabrg, "potonganharga2brg" : potonganharga2brg,  "totalbrg" : totalbrg, "jumlahbrg":jumlahbrg, "codeinvoice": codeinvoice, "namapembelibrg": namapembelibrg, "grandtotalbrg":grandtotalbrg}
+        
+        form_update = { "idbrg" :  idbrg , "namabrg" : namabrg, "filenamebrg" : filenamebrg, "grambrg" : grambrg,"hargajualbrg":hargajualbrg,"hargajual2brg":hargajual2brg, "qtybrg":qtybrg, "tglinputbrg":tglinputbrg, "qrcodebrg":qrcodebrg, "potonganhargabrg" : potonganhargabrg, "potonganharga2brg" : potonganharga2brg,  "totalbrg" : totalbrg, "jumlahbrg":jumlahbrg, "codeinvoice": codeinvoice, "namapembelibrg": namapembelibrg,  "subtotalbrg":subtotalbrg, "kasir":kasir, "qtybrg":qtybrg,"tgl_nota":tgl_nota, "number_phone":number_phone, "kodeqrbrg": kodeqrbrg, "kadar":kadarbrg }
         
         
         
@@ -2103,11 +2176,9 @@ req.send(null);
         function tampilkanrespon() {
           console.log(this.responseText)
           if(XHR.status == 200){
-            window.open('http://www.google.com', '_blank', 'toolbar=0,location=0,menubar=0');
-            // window.location.reload();
             
-            // window.location.href = "/billing"
-            
+            window.location.href = "/invoice"
+
           }
           else{
             alert("data tidak masuk")
@@ -2118,61 +2189,16 @@ req.send(null);
     }
     // Calling that async function
     getapi(api_url);
-
-    // var req = new XMLHttpRequest();
-    // req.responseType = 'json';
-    // req.open('GET', 'https://tokoemasmuliaberau.com/cartapi');
-    // req.onload  = function() {
-    //   var jsonResponse = req.response.cart;
-    //   var cartarray =  jsonResponse
-      //console.log(cartarray)
-      //  const output = cartarray.map(el => el.text).join(', ');
-      //  console.log(cartarray)
-      //  console.log(cartarray.id_barang)
-      //console.log(cartarray.map(u => u.id_barang).join(', '))
-      //console.log(cartarray.map(u => u.nama_barang).join(', '))
-      //console.log(cartarray.map(u => u.gram).join(', '))
-      //console.log(cartarray.map(u => u.potongan_harga).join(', '))
-      
-      
-      
-      // req.send(null);
-      // var testing = document.getElementById('time').value 
-      // var tanggaltransaks = document.getElementById('ct').value 
-      //    var namapembeli = document.getElementById('namapembeli').value 
-      // var grandtotalan = document.getElementById('grandtotal').value
-      // var subtotalan = document.getElementById('sub_total').value
-      
-      
-      // localStorage.setItem('kodeinvoice', testing)
-      // localStorage.setItem('tanggaltransaksi', tanggaltransaks)
-      // localStorage.setItem('namapembeli', namapembeli)
-      //    localStorage.setItem('grandtotal', grandtotalan)
-      //   localStorage.setItem('sub_total', subtotalan)
-      
-      
-      // console.log(testing)
-      // console.log(tanggaltransaks)
-      // console.log(grandtotalan)
-      // document.getElementById("invoiceprint").innerHTML = 'Invoice: #'+testing
-      // document.getElementById("tanggaltransaksi").innerHTML = tanggaltransaks
-      // document.getElementById("nama_pembeli").innerHTML = namapembeli
-      // document.getElementById("totalnya").innerHTML = grandtotalan
-      // document.getElementById("totalsub").innerHTML = subtotalan
-      // var element = document.getElementById('hidden_div')
-      //    wedeh = element.css("display", "block")
-      //   var clonedElement = element.cloneNode(true);
-      
-      // change display of cloned element 
-      // $(clonedElement).css("display", "block");
-      
-      // Choose the clonedElement and save the PDF for our user.
-      //html2pdf(wedeh);
-      
-      // remove cloned element
-      // clonedElement.remove();
-    }
+    
+    
+  }
 </script>
+
+<!-- <script>
+  function pindah() {
+  window.location.href = "/invoice";
+}
+</script> -->
 </body>
 
 </html>

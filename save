@@ -853,3 +853,66 @@ for (var i = 0; i < arrayLength; i++) {
 
 
       SELECT DISTINCT(s.id_transaksi),s.grand_total, s.tanggal_transaksi  from penjualan s
+
+      // var req = new XMLHttpRequest();
+      // req.responseType = 'json';
+      // req.open('GET', 'https://tokoemasmuliaberau.com/cartapi');
+      // req.onload  = function() {
+      //   var jsonResponse = req.response.cart;
+      //   var cartarray =  jsonResponse
+        //console.log(cartarray)
+        //  const output = cartarray.map(el => el.text).join(', ');
+        //  console.log(cartarray)
+        //  console.log(cartarray.id_barang)
+        //console.log(cartarray.map(u => u.id_barang).join(', '))
+        //console.log(cartarray.map(u => u.nama_barang).join(', '))
+        //console.log(cartarray.map(u => u.gram).join(', '))
+        //console.log(cartarray.map(u => u.potongan_harga).join(', '))
+        
+        
+        
+        // req.send(null);
+        // var testing = document.getElementById('time').value 
+        // var tanggaltransaks = document.getElementById('ct').value 
+        //    var namapembeli = document.getElementById('namapembeli').value 
+        // var grandtotalan = document.getElementById('grandtotal').value
+        // var subtotalan = document.getElementById('sub_total').value
+        
+        
+        // localStorage.setItem('kodeinvoice', testing)
+        // localStorage.setItem('tanggaltransaksi', tanggaltransaks)
+        // localStorage.setItem('namapembeli', namapembeli)
+        //    localStorage.setItem('grandtotal', grandtotalan)
+        //   localStorage.setItem('sub_total', subtotalan)
+        
+        
+        // console.log(testing)
+        // console.log(tanggaltransaks)
+        // console.log(grandtotalan)
+        // document.getElementById("invoiceprint").innerHTML = 'Invoice: #'+testing
+        // document.getElementById("tanggaltransaksi").innerHTML = tanggaltransaks
+        // document.getElementById("nama_pembeli").innerHTML = namapembeli
+        // document.getElementById("totalnya").innerHTML = grandtotalan
+        // document.getElementById("totalsub").innerHTML = subtotalan
+        // var element = document.getElementById('hidden_div')
+        //    wedeh = element.css("display", "block")
+        //   var clonedElement = element.cloneNode(true);
+        
+        // change display of cloned element 
+        // $(clonedElement).css("display", "block");
+        
+        // Choose the clonedElement and save the PDF for our user.
+        //html2pdf(wedeh);
+        
+        // remove cloned element
+        // clonedElement.remove();
+
+
+        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
+          <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
+          <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
+          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['id_barang']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
+        </td>
+
+
+        href="{{ url_for('deleteallrowcart') }}"

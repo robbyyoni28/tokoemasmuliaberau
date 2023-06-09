@@ -100,7 +100,18 @@ body > .printableArea {
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Input Barang</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  " href="/invoice">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+                <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Laporan Penjualan</span>
           </a>
         </li>
         <li class="nav-item">
@@ -120,7 +131,7 @@ body > .printableArea {
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Penjualan</span>
           </a>
         </li>
         <!-- <li class="nav-item">
@@ -394,17 +405,22 @@ body > .printableArea {
                         </div>
                         <div class="modal-body">
                           <form  method="POST" action="{{url_for('tambah')}}" enctype="multipart/form-data">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                               <label for="exampleInputEmail1">ID Barang</label>
                               {% for row in id_barang %}
                               <input type="text" class="form-control" id="id_barang_sebelumnya" aria-describedby="emailHelp" placeholder="" value="{{row['id_barang']}}"  hidden>
                               {% endfor %}
                               <input type="text" class="form-control" id="id_barang" name="id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                               <label for="exampleInputEmail1">Nama Barang</label>
                               <input type="text" id="id_sebelumnya" hidden>
                               <input type="text" class="form-control" id="nama_barang" aria-describedby="emailHelp" name="nama_barang" placeholder="Masukkan Nama Barang" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Kadar</label>
+                              <input type="text" id="id_sebelumnya" hidden>
+                              <input type="text" class="form-control" id="kadar" aria-describedby="emailHelp" name="kadar" placeholder="Masukkan Kadar Barang" required>
                             </div>
                            
                             <!-- <div class="form-group">
@@ -462,12 +478,15 @@ body > .printableArea {
                   <table id="example" class="table" >
                     <thead>
                       <tr class="table-primary">
+                        <th>No</th>
                         <th>ID Barang</th>
                         <th>Foto Barang</th>
                         <th>Barcode Barang</th>
                         <th>Nama Barang</th>
+                        <th hidden>Nama Barang</th>
                         <!-- <th>Merk</th> -->
                         <th>Gram</th>
+                        <th>Kadar</th>
                         <!-- <th>Satuan Barang</th> -->
                         <!-- <th>Stok</th> -->
                         <th>Input/Update</th>
@@ -478,20 +497,23 @@ body > .printableArea {
                     <tbody>
                       {% for row in barang %}
                       <tr>
-                        <td>{{row['id_barang']}}</td>
+                        <td></td>
+                        <td>{{row['modifankamu']}}</td>
                         <td><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
                         <td><img src="/static/uploads/{{row['qrcode']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
                         <td>{{row['nama_barang']}}</td>
+                        <td hidden>{{row['kodeqr']}}</td>
                         <!-- <td>{{row['merk']}}</td> -->
                         <td>{{row['gram']}}</td>
+                        <td>{{row['kadar']}}</td>
                         <!-- <td>{{row['satuan_barang']}}</td> -->
                         <!-- <td>{{row['stok']}}</td> -->
                         <td>{{row['tgl_input']}}</td>
                         <!-- <td>{{row['tgl_update']}}</td> -->
-                        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['id_barang']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
+                        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['modifankamu']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
                           <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                           <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
-                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['id_barang']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
+                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['modifankamu']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
                         </td>
                       </tr>
                       {% endfor %}
@@ -499,12 +521,15 @@ body > .printableArea {
                     </tbody>
                     <tfoot>
                       <tr>
+                        <th>No</th>
                         <th>ID Barang</th>
                         <th>Foto Barang</th>
                         <th>Barcode Barang</th>
                         <th>Nama Barang</th>
+                        <th hidden>Nama Barang</th>
                         <!-- <th>Merk</th> -->
                         <th>Gram</th>
+                        <th>Kadar</th>
                         <!-- <th>Satuan Barang</th> -->
                         <!-- <th>Stok</th> -->
                         <th>Input/Update</th>
@@ -584,7 +609,7 @@ body > .printableArea {
       </div>
     </div>
    
-   <div class="container-fluid">
+   <!-- <div class="container-fluid">
     <div class="row">
       <div class="col-xl-12">
         <div class="card">
@@ -600,11 +625,11 @@ body > .printableArea {
                     <th>Pekerja</th>
                     <th>Jumlah</th>
                     <th>Total</th>
-                    <th>Input/Update</th>
+                    <th>Input/Update</th> -->
                     <!-- <th>Salary</th> -->
-                  </tr>
+                  <!-- </tr>
                 </thead>
-                <tbody>
+                <tbody> -->
                   <!-- {% for row in penjualan %}
                   <tr>
                     <td>{{row['id_barang']}}</td>
@@ -615,18 +640,18 @@ body > .printableArea {
                   </tr>
                   {% endfor %}
                    -->
-                </tbody>
+                <!-- </tbody>
                 <tfoot>
                   <tr>
                     <th>Id Barang</th>
                     <th>Pekerja</th>
                     <th>Jumlah</th>
                     <th>Total</th>
-                    <th>Tanggal Input</th>
+                    <th>Tanggal Input</th> -->
                     <!-- <th>Salary</th> -->
-                  </tr>
+                  <!-- </tr>
                 </tfoot>
-              </table>  
+              </table>   -->
             </div>
           </div>
         </div>
@@ -1413,10 +1438,21 @@ body > .printableArea {
   </script>
   <script>
     $(document).ready(function () {
-    $('#example').DataTable({
+      var t = $('#example').DataTable({
       "scrollY": false,
-      "scrollX": false
+      "scrollX": false,
+      order: [[3, 'asc']],
+      "columnDefs": [
+        {"className": "dt-center", "targets": "_all"}
+      ]
     });
+    t.on('order.dt search.dt', function () {
+      let i = 1;
+
+      t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+          this.data(i++);
+      });
+  }).draw();
 });
   </script>
   <script>
@@ -1507,11 +1543,11 @@ body > .printableArea {
     
   <script>
    
-    function showEditModal(id,id_barang, filename, nama_barang, gram,  tgl_input, tgl_update) {
+    function showEditModal(id,modifankamu, filename, nama_barang, gram,  tgl_input, tgl_update) {
         // alert(`modal dimunculkann, dengan data id_berita = ${id_berita} judul_berita=${judul_berita} penulis=${penulis} id_kategori=${kategori} gambar=${gambar} berita=${berita} tanggal_upload = ${tanggal_upload} `)
         $('#updatemodal').modal('show')
         document.getElementById('mdl_update_id').value = id
-        document.getElementById('upd_id_barang').value = id_barang
+        document.getElementById('upd_id_barang').value = modifankamu
         document.getElementById('upd_nama_barang').value = nama_barang
         //document.getElementById('upd_merk_barang').value = merk
         document.getElementById('upd_gram').value = gram
