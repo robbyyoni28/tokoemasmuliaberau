@@ -50,8 +50,22 @@ body > .printableArea {
     </style>
 </head>
 
+<script type="text/javascript"> 
+  function display_c(){
 
-<body class="g-sidenav-show  bg-gray-100">
+    
+  var refresh=1000; // Refresh rate in milli seconds
+  mytime=setTimeout('display_ct()',refresh)
+  }
+  
+  function display_ct() {
+  var x = new Date().toLocaleString('en-GB')
+  
+  document.getElementById('ct').value = x;
+  display_c();
+   }
+  </script>
+<body class="g-sidenav-show  bg-gray-100" onload="display_ct();">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -412,11 +426,14 @@ body > .printableArea {
                               {% endfor %}
                               <input type="text" class="form-control" id="id_barang" name="id_barang" aria-describedby="emailHelp" placeholder="" value="" readonly>
                             </div> -->
+                            
                             <div class="form-group">
                               <label for="exampleInputEmail1">Nama Barang</label>
                               <input type="text" id="id_sebelumnya" hidden>
                               <input type="text" class="form-control" id="nama_barang" aria-describedby="emailHelp" name="nama_barang" placeholder="Masukkan Nama Barang" required>
+                             
                             </div>
+                            <input type="text" class="form-control" id="ct" name="waduhai" value="" hidden>
                             <div class="form-group">
                               <label for="exampleInputEmail1">Kadar</label>
                               <input type="text" id="id_sebelumnya" hidden>
@@ -477,7 +494,7 @@ body > .printableArea {
                 <div class="table-responsive" style="overflow: hidden;">
                   <table id="example" class="table" >
                     <thead>
-                      <tr class="table-primary">
+                      <tr class="bg-primary text-center" style="color:#FFFFFF">
                         <th>No</th>
                         <th>ID Barang</th>
                         <th>Foto Barang</th>
@@ -508,12 +525,12 @@ body > .printableArea {
                         <td>{{row['kadar']}}</td>
                         <!-- <td>{{row['satuan_barang']}}</td> -->
                         <!-- <td>{{row['stok']}}</td> -->
-                        <td>{{row['tgl_input']}}</td>
+                        <td>{{row['tgl_new']}}</td>
                         <!-- <td>{{row['tgl_update']}}</td> -->
                         <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['modifankamu']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
                           <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                           <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
-                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['modifankamu']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button>
+                          <!-- <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['modifankamu']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button> -->
                         </td>
                       </tr>
                       {% endfor %}

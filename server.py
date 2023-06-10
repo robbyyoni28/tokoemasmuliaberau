@@ -92,7 +92,7 @@ def table():
         print(id_barang)
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"SELECT LPAD(id,9,'BR-0000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr FROM db_toko.barang;")
+        cursor.execute(f"SELECT LPAD(id,9,'BR-0000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr, tgl_new FROM db_toko.barang;")
         barang = cursor.fetchall()
         print(barang)
     
@@ -139,6 +139,7 @@ def tambah():
         # upload_hargajual = request.form['harga_jual']
         upload_grambarang = request.form['gram_barang']
         kadar = request.form['kadar']
+        tgl_new = request.form['waduhai']
         # upload_stokbarang = request.form['stok_barang']
         random_number = random.randint(1, 10000000000) * 2 + 1
         qr.add_data(random_number)
@@ -151,7 +152,7 @@ def tambah():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO barang (nama_barang, gram,tgl_input, filename, qrcode,kadar, kodeqr) VALUES ( %s, %s, %s, %s, %s, %s, %s)",(upload_nmbarang, upload_grambarang, iso8601, new_filename, new_filenamebarcode, kadar, random_number))
+            cursor.execute(f"INSERT INTO barang (nama_barang, gram,tgl_input, filename, qrcode,kadar, kodeqr, tgl_new) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)",(upload_nmbarang, upload_grambarang, iso8601, new_filename, new_filenamebarcode, kadar, random_number, tgl_new))
         connection.commit()
 
 #print('upload_image filename: ' + filename)
@@ -371,7 +372,7 @@ def deleteallrow():
             connection.commit()
             return redirect(url_for('billing'))
 
-@app.route('/deleteallrowcart', methods=['GET','POST', 'DELETE'])
+@app.route('/deleteallrowcart', methods=['DELETE'])
 def deleteallrowcart():
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
@@ -389,11 +390,11 @@ def delete(filename):
         return redirect(url_for('table'))
 
 
-@app.route('/deletecart/<id_barang>', methods=['GET','POST'])
-def deletecart(id_barang):
+@app.route('/deletecart/<filename>', methods=['GET','POST'])
+def deletecart(filename):
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"DELETE FROM tb_cart WHERE id_barang = '{id_barang}'   ")
+        cursor.execute(f"DELETE FROM tb_cart WHERE filename = '{filename}'   ")
         connection.commit()
         return redirect(url_for('billing'))
 
@@ -403,7 +404,7 @@ def deletetransaksi(id_transaksi):
     with connection.cursor() as cursor:
         cursor.execute(f"DELETE FROM penjualan WHERE id_transaksi = '{id_transaksi}'   ")
         connection.commit()
-        return redirect(url_for('billing'))
+        return redirect(url_for('invoice'))
 
 @app.route("/logout")
 def logout():
@@ -545,7 +546,7 @@ def invoice():
     with connection.cursor() as cursor:
         # request.form = request.json
         # addcart_id = request.form['upd_id_barang']
-        cursor.execute(f"SELECT DISTINCT(s.id_transaksi), s.tanggal_transaksi, s.qrcode_transaksi, s.nama_konsumen, s.kasir, s.sub_total, s.tgl_nota  from penjualan s ORDER BY tanggal_transaksi")
+        cursor.execute(f"SELECT  DISTINCT id_transaksi,tgl_nota,nama_konsumen,kasir,sub_total from penjualan ORDER BY id_transaksi DESC")
         invoicedone = cursor.fetchall()
         print(invoicedone)
 

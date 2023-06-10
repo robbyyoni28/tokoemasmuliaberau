@@ -739,7 +739,7 @@
     {% for row in invoice %}
               {% if loop.index <= 1 %}
            <div id="qr_code">
-            <img src="/static/uploads/{{row['qrcode_transaksi']}}" class="img-thumbnail" alt="" style="height: 60px;width: fit-content;margin-left: -12px;margin-top: 30px;">
+            <img src="/static/uploads/{{row['qrcode_transaksi']}}" class="img-thumbnail" alt="" style="height: 60px;width: fit-content;margin-left: -12px;margin-top: 0px;">
            </div>
            {% endif %}
               {% endfor %}

@@ -403,7 +403,7 @@ body > .printableArea {
                 <div class="table-responsive" style="overflow: hidden;">
                   <table id="example" class="table" >
                     <thead>
-                      <tr class="table-primary">
+                      <tr style="color: white;" class="bg-primary">
                         <th>NO</th>
                         <th>Tanggal Transaksi</th>
                         <!-- <th hidden></th> -->
@@ -453,10 +453,10 @@ body > .printableArea {
                       <tr>
                         <th>NO</th>
                         <!-- <th hidden></th> -->
-                        <th>Nama Pelanggan</th>
+                        <th>Tanggal Transaksi</th>
                         <th>ID Transaksi</th>
                         <!-- <th>Qrcode</th> -->
-                        <th>Tanggal Transaksi</th>
+                        <th>Nama Pelanggan</th>
                         <!-- <th>Merk</th> -->
                         <th>Kasir</th>
                         <!-- <th>Satuan Barang</th> -->
@@ -1324,7 +1324,7 @@ body > .printableArea {
       var t = $('#example').DataTable({
       "scrollY": false,
       "scrollX": false,
-      order: [[3, 'desc']],
+      
       "columnDefs": [
         {"className": "dt-center", "targets": "_all"}
       ]

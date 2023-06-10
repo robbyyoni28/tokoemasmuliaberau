@@ -916,3 +916,39 @@ for (var i = 0; i < arrayLength; i++) {
 
 
         href="{{ url_for('deleteallrowcart') }}"
+
+
+        <table class="table table-bordered" id="cart_table">
+          <thead>
+            <tr>
+              <th>Id Barang</th>
+              <th>Foto Barang</th>
+              <th>Nama Barang</th>
+              <th>Gram</th>
+              <th>Kadar</th>
+              <th>Qty</th>
+              <th hidden>kodeqr</th>
+              <!-- <th>Harga Jual</th> -->
+              <!-- <th>Potongan Harga</th> -->
+              <th>Total</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in cart %}
+            <tr>
+              <td >{{row['id_barang']}}</th>
+              <td ><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
+              <td >{{row['nama_barang']}}</td>
+              <td>{{row['gram']}}</td>
+              <td>{{row['kadar']}}</td>
+              <td>{{row['qty']}}</td>
+              <td hidden>{{row['kodeqr']}}</td>
+              <!-- <td>Rp. {{row['harga_jual']}}</td> -->
+              <!-- <td>Rp. {{row['potongan_harga']}}</td> -->
+              <td>{{row['total']}}</td>
+              <td>   <a type="button" class="btn btn-danger" href="/deletecart/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>

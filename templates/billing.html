@@ -501,7 +501,7 @@
                 <div class="card-body">
                  
                   <div class="form-group row ">
-                    <label for="staticEmail" class="col-sm-4 col-form-label">Barcode</label>
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Cari Barang</label>
                     <div class="col-sm-4">
                          <!-- <input type="text" readonly class="form-control" id="staticEmail" value=""> -->
                          <button id="button-addon3" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -813,6 +813,9 @@
             </div>
       </div>
     </div>
+    <style>
+    
+    </style>
     <div class="container-fluid mt-3 py-4">
       <div class="row">
         <div class="col-lg-12">
@@ -822,10 +825,10 @@
               <div class="card-body">
                 <h5 class="card-title"></h5>
                 <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="cart_table">
-                    <thead>
-                      <tr>
-                        <th>Id Barang</th>
+                  <table class="table table-hover" style="">
+                    <thead >
+                      <tr class="text-center bg-primary" style="color: #ffffff;">
+                        <th >Id Barang</th>
                         <th>Foto Barang</th>
                         <th>Nama Barang</th>
                         <th>Gram</th>
@@ -839,23 +842,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for row in cart %}
-                      <tr>
-                        <th >{{row['id_barang']}}</th>
-                        <td ><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
-                        <td >{{row['nama_barang']}}</td>
-                        <td>{{row['gram']}}</td>
-                        <td>{{row['kadar']}}</td>
-                        <td>{{row['qty']}}</td>
-                        <td hidden>{{row['kodeqr']}}</td>
-                        <!-- <td>Rp. {{row['harga_jual']}}</td> -->
-                        <!-- <td>Rp. {{row['potongan_harga']}}</td> -->
-                        <td>{{row['total']}}</td>
-                        <td>   <a type="button" class="btn btn-danger" href="/deletecart/{{ row['id_barang'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a></td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+            
+                        {% for row in cart %}
+                        <tr class="table-light text-center">
+                          <th>{{row['id_barang']}}</th>
+                          <td ><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td>
+                          <td >{{row['nama_barang']}}</td>
+                          <td>{{row['gram']}}</td>
+                          <td>{{row['kadar']}}</td>
+                          <td>{{row['qty']}}</td>
+                          <td hidden>{{row['kodeqr']}}</td>
+                          <!-- <td>Rp. {{row['harga_jual']}}</td> -->
+                          <!-- <td>Rp. {{row['potongan_harga']}}</td> -->
+                          <td>{{row['total']}}</td>
+                          <td>   <a type="button" class="btn btn-danger" href="/deletecart/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                     
+                    </tbody>
+                  </table>
+                 
               </div>
               <div id="add_table"></div>
               <!-- <p id="demo"></p> -->
@@ -1377,7 +1383,7 @@
         <hr style="height:2px;border-width:0;color:gray;background-color: #cc3333">
 				<tr class="information">
 					<td colspan="2">
-						<table id="customers" >
+						<table id="customers" class="table table-bordered" >
               <tr>
                 <tr>
                   <th>Id Barang</th>
@@ -1392,7 +1398,7 @@
               </tr>
               {% for row in cart %}
               <tr>
-                <td >{{row['id_barang']}}</td>
+                <td>{{row['id_barang']}}</td>
                 <td ><img src="/static/uploads/{{row['filename']}}" class="img-thumbnail" alt="" style="height: 50px; width: fit-content;">
                   <img src="/static/uploads/{{row['qrcode']}}" class="img-thumbnail" alt="" style="height: 50px; width: fit-content;"></td>
                 <td >{{row['nama_barang']}}</td>
@@ -1647,6 +1653,7 @@ checkedNew = x.split('/').join("");
 checkedNew2 = checkedNew.split(',').join("");
 checkedNew3 = checkedNew2.split(' ').join("");
 checkedNew4 = checkedNew3.split(':').join("");
+str = checkedNew4.slice(0,-2)
 
 // document.getElementById('ct').value = x;
 document.getElementById('time').value = "EMB"+checkedNew4;
@@ -1897,7 +1904,18 @@ $( document ).ready(function() {
 
    // add_nik = document.getElementById('nik').value
    
- 
+   if (!addcart_qty || !addcart_total ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Diisi Data Yang Belum Diinput!',
+                target: document.getElementById('modal_pilih'),
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
+            // alert("fill all columns");
+            // window.location.href = "/table"
+        }
+        else{
 
 
 
@@ -1931,7 +1949,7 @@ $( document ).ready(function() {
    }
    
    
-   
+  }
    
  }
  </script>
@@ -2177,7 +2195,18 @@ req.send(null);
         // str = codeinvoice.slice(0, -3);
         // str = util.printd("yymmddHHMM", new Date()) + Math.random().toString().substring(2,4)
 
-        
+        if (!namapembelibrg || !number_phone ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Diisi Data Yang Belum Diinput!',
+                // target: document.getElementById('modal_pilih'),
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
+            // alert("fill all columns");
+            // window.location.href = "/table"
+        }
+        else{
         
         form_update = { "idbrg" :  idbrg , "namabrg" : namabrg, "filenamebrg" : filenamebrg, "grambrg" : grambrg,"hargajualbrg":hargajualbrg,"hargajual2brg":hargajual2brg, "qtybrg":qtybrg, "tglinputbrg":tglinputbrg, "qrcodebrg":qrcodebrg, "potonganhargabrg" : potonganhargabrg, "potonganharga2brg" : potonganharga2brg,  "totalbrg" : totalbrg, "jumlahbrg":jumlahbrg, "codeinvoice": codeinvoice, "namapembelibrg": namapembelibrg,  "subtotalbrg":subtotalbrg, "kasir":kasir, "qtybrg":qtybrg,"tgl_nota":tgl_nota, "number_phone":number_phone, "kodeqrbrg": kodeqrbrg, "kadar":kadarbrg }
         
@@ -2201,9 +2230,10 @@ req.send(null);
 
           }
           else{
-            alert("data tidak masuk")
+            // alert("data tidak masuk")
           }
         }
+      }
         // do something with jsonResponse
       };
     }
@@ -2215,6 +2245,23 @@ req.send(null);
 </script>
 <script>
   function deletecart(){
+
+    var namapembelibrg = document.getElementById('namapembeli').value
+    var number_phone = document.getElementById('numberphone').value
+
+
+    if (!namapembelibrg || !number_phone ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Diisi Data Yang Belum Diinput!',
+                // target: document.getElementById('modal_pilih'),
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
+            // alert("fill all columns");
+            // window.location.href = "/table"
+        }
+        else{
 //   const userAction = async () => {
 //   const response = await fetch('https://tokoemasmuliaberau.com/deleteallrowcart');
 //   const myJson = await response.json(); 
@@ -2233,25 +2280,25 @@ fetch('https://tokoemasmuliaberau.com/deleteallrowcart', {
   method: 'DELETE',
 })
 Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
+  title: 'TRANSAKSI BERHASIL',
+  text: "CEK NOTA DILAPORAN PENJUALAN",
+  icon: 'success',
+  // showCancelButton: true,
   confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes, delete it!'
+  // cancelButtonColor: '#d33',
+  // confirmButtonText: 'Yes, delete it!'
 }).then((result) => {
   if (result.isConfirmed) {
-    Swal.fire(
-      'Deleted!',
-      'Your file has been deleted.',
-      'success'
-    )
+    window.location.href="/invoice"
   }
+  // else{
+  //   location.reload()
+  // }
 })
 // .then(res => res.text()) // or res.json()
 // .then(res => console.log(res))
 }
+  }
         // do something with jsonResponse
 </script>
 <!-- <script>
