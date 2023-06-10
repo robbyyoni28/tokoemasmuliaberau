@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="/static/css/style.css"> -->
-
+  <link rel="stylesheet" href="sweetalert2.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.semanticui.min.css">
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
@@ -870,15 +870,15 @@
         <div class="col-lg-12">
           <div class="row">
             <div class="card-deck">
-              <div class="card">
+              <!-- <div class="card">
                 <div class="card-body">
                   <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Sub Total</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" id="sub_total" value="">
+                    <div class="col-sm-6"> -->
+                      <input type="text" readonly class="form-control" id="sub_total" value="" hidden>
                       <!-- <input type="text" readonly class="form-control" id="sub_total" value=""> -->
-                    </div>
-                  </div>
+                    <!-- </div>
+                  </div> -->
                   <!-- <div class="form-group row ">
                     <label for="staticEmail" class="col-sm-4 col-form-label">Potongan Harga</label>
                     <div class="col-sm-6">
@@ -891,9 +891,9 @@
                       <input type="text" readonly class="form-control" id="grandtotal" value="">
                     </div>
                   </div> -->
-                </div>
-              </div>
-              <!-- </div> -->
+                <!-- </div> -->
+              <!-- </div>
+              </div> -->
               <!-- <div class="card"> -->
                 <!-- <div class="card-body"> -->
                   <!-- <div class="form-group row ">
@@ -966,7 +966,7 @@
                   <a class="btn btn-danger btn-lg btn-block fa fa-refresh" aria-hidden="true" href="{{ url_for('deleteallrow') }}" onclick="remove()">  Clear Cart</a>
                   </div>  
                   <div class="form-group row ">
-                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" Convert_HTML_To_PDF() "  href="{{ url_for('deleteallrowcart') }}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
+                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" Convert_HTML_To_PDF(); deletecart() "  ><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
                   </div>
                
                
@@ -1511,7 +1511,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+  <script src="sweetalert2.all.min.js"></script>
 
 
   <script>
@@ -2196,7 +2196,8 @@ req.send(null);
           console.log(this.responseText)
           if(XHR.status == 200){
             
-            window.location.href = "/invoice"
+       
+            
 
           }
           else{
@@ -2212,7 +2213,47 @@ req.send(null);
     
   }
 </script>
-
+<script>
+  function deletecart(){
+//   const userAction = async () => {
+//   const response = await fetch('https://tokoemasmuliaberau.com/deleteallrowcart');
+//   const myJson = await response.json(); 
+//   jsoned = JSON.parse(this.responseText)
+//         //    alert(jsoned.pesan)
+//            Swal.fire({
+//                 icon: 'error',
+//                 title: 'Oops...',
+//                 text: jsoned.pesan,
+//                 target: window.location.href = "/invoice",
+//                 footer: '<a href="">Why do I have this issue?</a>'
+//             })
+            
+// }
+fetch('https://tokoemasmuliaberau.com/deleteallrowcart', {
+  method: 'DELETE',
+})
+Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+// .then(res => res.text()) // or res.json()
+// .then(res => console.log(res))
+}
+        // do something with jsonResponse
+</script>
 <!-- <script>
   function pindah() {
   window.location.href = "/invoice";

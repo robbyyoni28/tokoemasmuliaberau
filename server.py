@@ -371,13 +371,13 @@ def deleteallrow():
             connection.commit()
             return redirect(url_for('billing'))
 
-@app.route('/deleteallrowcart', methods=['GET','POST'])
+@app.route('/deleteallrowcart', methods=['GET','POST', 'DELETE'])
 def deleteallrowcart():
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM tb_cart")
             connection.commit()
-            return redirect(url_for('invoice'))
+            return jsonify({"pesan": "sudah masuk"}), 200
 
 @app.route('/delete/<filename>', methods=['GET','POST'])
 def delete(filename):
@@ -493,7 +493,9 @@ def transaksisukses():
 
         # cursor.execute(f"INSERT INTO tb_penjualan (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
         # connection.commit()
-            return redirect(url_for('invoice'))
+            
+            return jsonify({"pesan": "sudah masuk"}), 200
+   
 
 @app.route('/printqrcode/<id_transaksi>', methods=['GET','POST'])
 def printqrcode(id_transaksi):
