@@ -14,7 +14,7 @@ from flask_qrcode import QRcode
 import pdfkit
 import random
 from datetime import timedelta
-
+import xlwt
 
 
 
@@ -92,7 +92,7 @@ def table():
         print(id_barang)
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"SELECT LPAD(id,9,'BR-0000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr, tgl_new FROM db_toko.barang;")
+        cursor.execute(f"SELECT LPAD(id,9,'BR-00000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr, tgl_new FROM db_toko.barang;")
         barang = cursor.fetchall()
         print(barang)
     
@@ -565,6 +565,108 @@ def printbilling():
     return render_template("qrcode.html")
     # return '''Click here to open the <a href="https://tokoemasmuliaberau.com/static/pdf/demo.pdf">pdf</a>.'''
    
+
+@app.route("/download/report/excelbulan", methods=['POST'])
+def download_report_bulan():
+    if request.method == "POST":
+        input_tanggal = request.form['tanggal_laporan']
+        # input_tahun = request.form['tahun']
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        cursor.execute(f"SELECT * FROM  penjualan WHERE tanggal_transaksi  LIKE '%{input_tanggal}%'  ORDER BY id_penjualan DESC ")
+        result_dtg = cursor.fetchall()
+        print(result_dtg)
+
+        # CSV GENERATORRRRRRRRR
+        output = io.BytesIO()
+        workbook = xlwt.Workbook()
+		
+        sh = workbook.add_sheet('Employee Report')
+        
+        sh.write(0, 0, 'TANGGAL TRANSAKSI')
+        sh.write(0, 1, 'ID TRANSAKSI')
+        sh.write(0, 2, 'ID BARANG')
+        sh.write(0, 3, 'KASIR')
+        sh.write(0, 4, 'NAMA BARANG')
+        sh.write(0, 5, 'GRAM')
+        sh.write(0, 6, 'QTY')
+        sh.write(0, 7, 'SUB TOTAL')
+        sh.write(0, 8, 'TOTAL HARGA')
+
+        idx = 0
+
+        for row in result_dtg:
+            
+            sh.write(idx+1, 0, row['tgl_nota'])
+            sh.write(idx+1, 1, row['id_transaksi'])
+            sh.write(idx+1, 2, row['id_barang'])
+            sh.write(idx+1, 3, row['kasir'])
+            sh.write(idx+1, 4, row['nama_barang'])
+            sh.write(idx+1, 5, row['gram'])
+            sh.write(idx+1, 6, row['qtybrg'])
+            sh.write(idx+1, 7, row['total'])
+            sh.write(idx+1, 8, row['sub_total'])
+
+
+            idx += 1
+
+            workbook.save(output)
+            output.seek(0)
+            print(output)
+
+        return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition":"attachment;filename=Transaksi - "+ str(input_tanggal) + ".xls"})
+
+@app.route("/download/report/excelday", methods=['POST'])
+def download_report_day():
+    if request.method == "POST":
+        input_tanggal = request.form['tanggal_laporan']
+        # input_tahun = request.form['tahun']
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        iso8601 = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+        cursor.execute(f"SELECT LPAD(id,9,'BR-00000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr, tgl_new FROM db_toko.barang WHERE tgl_input  LIKE '%{input_tanggal}%'  ORDER BY modifankamu DESC ")
+        result_dtg = cursor.fetchall()
+        print(result_dtg)
+
+        # CSV GENERATORRRRRRRRR
+        output = io.BytesIO()
+        workbook = xlwt.Workbook()
+		
+        sh = workbook.add_sheet('Employee Report')
+        
+        sh.write(0, 0, 'ID BARANG')
+        sh.write(0, 1, 'NAMA BARANG')
+        sh.write(0, 2, 'GRAM')
+        sh.write(0, 3, 'DATA QR')
+        sh.write(0, 4, 'TANGGAL INPUT')
+        # sh.write(0, 5, 'GRAM')
+        # sh.write(0, 6, 'QTY')
+        # sh.write(0, 7, 'SUB TOTAL')
+        # sh.write(0, 8, 'TOTAL HARGA')
+
+        idx = 0
+
+        for row in result_dtg:
+            
+            sh.write(idx+1, 0, row['modifankamu'])
+            sh.write(idx+1, 1, row['nama_barang'])
+            sh.write(idx+1, 2, row['gram'])
+            sh.write(idx+1, 3, row['kodeqr'])
+            sh.write(idx+1, 4, row['tgl_new'])
+            # sh.write(idx+1, 5, row['gram'])
+            # sh.write(idx+1, 6, row['qtybrg'])
+            # sh.write(idx+1, 7, row['total'])
+            # sh.write(idx+1, 8, row['sub_total'])
+
+
+            idx += 1
+
+            workbook.save(output)
+            output.seek(0)
+            print(output)
+
+        return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition":"attachment;filename=Data Barang - "+ str(input_tanggal) + ".xls"})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
