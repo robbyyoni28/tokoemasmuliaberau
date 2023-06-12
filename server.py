@@ -73,10 +73,25 @@ def signin():
 
 @app.route('/dashboard', methods=['GET','POST'])
 def dashboard():
-    # if len(session) == 0:
-    #     return redirect('/?msg=SESSION_KOSONG')
+    if len(session) == 0:
+        return redirect('/?msg=SESSION_KOSONG')
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT COUNT(id) AS hitung FROM barang")
+        hitungbarang = cursor.fetchall()
+        print(hitungbarang)
+
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT COUNT(id_penjualan) AS hitungtransaksi FROM penjualan")
+        hitungtransaksi = cursor.fetchall()
+        print(hitungtransaksi)
     
-    return render_template("dashboard.html",sess_data=session)
+    return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi)
 
 @app.route('/table', methods=['GET','POST'])
 def table():
@@ -211,7 +226,7 @@ def billing():
     
     connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
     with connection.cursor() as cursor:
-        cursor.execute(f"SELECT LPAD(id,9,'BR-0000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr FROM db_toko.barang")
+        cursor.execute(f"SELECT LPAD(id,9,'BR-00000') as modifankamu, nama_barang, filename, gram, qrcode, kadar, tgl_input ,kodeqr FROM db_toko.barang")
         barang = cursor.fetchall()
         print(barang)
 
@@ -546,7 +561,7 @@ def invoice():
     with connection.cursor() as cursor:
         # request.form = request.json
         # addcart_id = request.form['upd_id_barang']
-        cursor.execute(f"SELECT  DISTINCT id_transaksi,tgl_nota,nama_konsumen,kasir,sub_total from penjualan ORDER BY id_transaksi DESC")
+        cursor.execute(f"SELECT  DISTINCT id_transaksi,tgl_nota,nama_konsumen,kasir,sub_total, kodeqr,id_barang from penjualan ORDER BY id_transaksi DESC")
         invoicedone = cursor.fetchall()
         print(invoicedone)
 
@@ -667,6 +682,23 @@ def download_report_day():
             print(output)
 
         return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition":"attachment;filename=Data Barang - "+ str(input_tanggal) + ".xls"})
+
+@app.route("/detailapi", methods=['GET','POST'])
+def detailapi():
+    request.form = request.json
+    id_transaksi = request.form['id_transaksi']
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT * FROM penjualan where id_transaksi = '{id_transaksi}'")
+        detail = cursor.fetchall()
+        print(detail)
+        
+        if detail is None:
+            return jsonify("data tidak ditemukan oleh server", status=404)
+        else:
+            return jsonify({"detail":detail})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

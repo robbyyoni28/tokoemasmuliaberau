@@ -408,6 +408,8 @@ body > .printableArea {
                         <th>Tanggal Transaksi</th>
                         <!-- <th hidden></th> -->
                         <th>ID Transaksi</th>
+                        <th hidden></th>
+                        <th hidden></th>
                         <!-- <th>Qrcode</th> -->
                         <th>Nama Pelanggan</th>
                         <!-- <th>Merk</th> -->
@@ -427,6 +429,8 @@ body > .printableArea {
                         <td style="color:#000000; "></td>
                         <td style="color:#000000; ">{{row['tgl_nota']}}</td>
                         <td style="color:#000000; " >{{row['id_transaksi']}}</td>
+                        <td hidden >{{row['id_barang']}}</td>
+                        <td hidden >{{row['kodeqr']}}</td>
                         <!-- <td style="color:#000000; ">{{row['modifankamu']}}</td> -->
                         <!-- <td><img src="/static/uploads/{{row['qrcode_transaksi']}}" class="img-thumbnail" alt="" style="height: 100px; width: fit-content;"></td> -->
                         <td style="color:#000000; ">{{row['nama_konsumen']}}</td>
@@ -439,7 +443,7 @@ body > .printableArea {
                         <!-- <td style="color:#000000; ">{{row['grand_total']}}</td> -->
                         <!-- <td>{{row['tgl_update']}}</td> -->
                         <td>  
-                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['id_barang']}}', '{{row['gram']}}')" ><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                          <button type="button" class="btn btn-primary "  data-toggle="modal"  href="" onclick="showPickItem('{{ row['id_transaksi'] }}')" ><i class="fa fa-info-circle" aria-hidden="true"></i></button>
                           <a type="button" class="btn btn-primary "  href="/printqrcode/{{ row['id_transaksi'] }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-print" aria-hidden="true" ></i></a>
                           <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                           <a type="button" class="btn btn-danger" href="/deletetransaksi/{{ row['id_transaksi'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i></a>
@@ -476,16 +480,19 @@ body > .printableArea {
         </div>
       </div>
     </div>
+    
     <iframe src="/printqrcode" style="display:none;" name="frame"></iframe>
     <div class="modal fade" id="updatemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <img src="" alt="">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-dismiss="modal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          
           <div class="modal-body">
          
               <div class="form-group">
@@ -542,7 +549,26 @@ body > .printableArea {
    
    
 </div>
+<div class="modal fade" id="modaldetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
 
+        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
@@ -1323,6 +1349,54 @@ body > .printableArea {
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+</script>
+<script>
+  function showPickItem(id_transaksi){
+    id_transaksi = id_transaksi
+    form_update = {"id_transaksi" : id_transaksi }
+    
+    var XHR = new XMLHttpRequest()
+    XHR.addEventListener("load", tampilkanrespon)
+    XHR.open("POST","/detailapi")
+    XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
+    XHR.send(JSON.stringify(form_update))
+    
+    function tampilkanrespon() {
+        console.log(this.responseText)
+        if(XHR.status == 200){
+          
+          $('#modaldetail').modal('show')
+          
+        }
+        else{
+            alert("data tidak masuk")
+        }
+    }
+    // alert(`modal dimunculkann, dengan data nik=${nik} nama=${nama} `)
+    
+    // document.getElementById('mdl_update_id').value = modifankamu
+        // document.getElementById('upd_id_barang').value = modifankamu
+        // document.getElementById('upd_nama_barang').value = nama_barang
+        // document.getElementById('ini').value = filename
+        // document.getElementById('gram_barang').value = gram
+        // document.getElementById('mdl_update').value = tgl_update
+        // document.getElementById('qr_code').value = qrcode
+        // document.getElementById('mdl_update_file').value = filename
+        // document.getElementById('mdl_input').value = tgl_input
+        // document.getElementById("ini").src = "/static/uploads/"+filename
+        // document.getElementById('kadar').value = kadar
+        // document.getElementById('kodeqr').value = kodeqr
+
+
+
+        
+       
+    };
+</script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
