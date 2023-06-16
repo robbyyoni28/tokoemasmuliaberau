@@ -428,9 +428,9 @@
                     </div>
                   </div>
                   <div class="form-group row ">
-                    <label for="staticEmail" class="col-sm-4 col-form-label">KASIR</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">KASIR</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" id="kasir" value="{{sess_data['USER_FULL_NAME']}}">
+                      <input type="text" class="form-control" id="kasir" value="" >
                     </div>
                   </div>
                   <div class="form-group row ">
@@ -670,7 +670,7 @@
                           
                             <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Total Harga</label>
-                              <input type="text" class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga" >
+                              <input type="number" class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga" >
                             </div>
                             <!-- <div class="form-group col-md-6">
                               <label for="exampleInputEmail1">Tanggal Transaksi</label> -->
@@ -937,7 +937,7 @@
                   <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                   <div class="card-body">
                     <div class="form-group row ">
-                      <h2 for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Invoice</h2>
+                      <h2 for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Nomor Transaksi</h2>
                       <div class="col-sm-6">
                            <input type="text" readonly  adonly class="form-control-plaintext font-weight-bold" id="time" value="">
                           <!-- <h3 id="time"></h3> -->
@@ -972,7 +972,7 @@
                   <a class="btn btn-danger btn-lg btn-block fa fa-refresh" aria-hidden="true" href="{{ url_for('deleteallrow') }}" onclick="remove()">  Clear Cart</a>
                   </div>  
                   <div class="form-group row ">
-                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" Convert_HTML_To_PDF(); deletecart() "  ><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
+                    <a type="button" class="btn btn-success btn-lg btn-block" onclick=" notif(); "  ><i class="fa fa-paper-plane" aria-hidden="true"></i> Process Payment</a>
                   </div>
                
                
@@ -2149,10 +2149,33 @@ req.send(null);
     
 </script>
 <script>
+  function notif(){
+    Swal.fire({
+              title: '<strong>CEK KEMBALI KERANJANG BELANJA </strong>',
+              icon: 'info',
+              html:
+                'BARANG YANG SUDAH MASUK DI TRANSAKSI, ' +
+                // '<a >links</a> ' +
+                'AKAN AUTOMATIS TERHAPUS DI DATA BARANG',
+              showCloseButton: true,
+              showCancelButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<a type="button"  onclick=" Convert_HTML_To_PDF();  deletecart();">Lanjutkan Transaksi</a>',
+              confirmButtonAriaLabel: 'Thumbs up, great!',
+              cancelButtonText:
+                '<i >Cek Kembali Keranjang Belanja</i>',
+              cancelButtonAriaLabel: 'Thumbs down'
+})  
+  }
+</script>
+<script>
   
   
   // Convert HTML content to PDF
   function Convert_HTML_To_PDF() {
+    
+    
     const api_url = "https://tokoemasmuliaberau.com/cartapi";
     async function getapi(url) {
       
@@ -2188,57 +2211,73 @@ req.send(null);
         console.log( kodeqrbrg)
         var codeinvoice = document.getElementById('time').value 
         var namapembelibrg = document.getElementById('namapembeli').value
-      // var cash = document.getElementById('cash').value
-      //  var grandtotalbrg = document.getElementById('grandtotal').value 
+        // var cash = document.getElementById('cash').value
+        //  var grandtotalbrg = document.getElementById('grandtotal').value 
         var subtotalbrg = document.getElementById('sub_total').value 
-      //  var cutoff = document.getElementById('cutoff').value 
+        //  var cutoff = document.getElementById('cutoff').value 
         var kasir = document.getElementById('kasir').value 
         var tgl_nota = document.getElementById('ct').value 
         var number_phone = document.getElementById('numberphone').value
+        // cobadulu = parseInt(totalbrg);
+        let text = parseInt(totalbrg).toLocaleString("id-ID", {style:"currency", currency:"idr"});
+        // console.log(cobadulu)
         // str = codeinvoice.slice(0, -3);
         // str = util.printd("yymmddHHMM", new Date()) + Math.random().toString().substring(2,4)
-
-        if (!namapembelibrg || !number_phone ) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Diisi Data Yang Belum Diinput!',
-                // target: document.getElementById('modal_pilih'),
-                // footer: '<a href="">Why do I have this issue?</a>'
-            })
-            // alert("fill all columns");
-            // window.location.href = "/table"
+        
+        if (!namapembelibrg || !number_phone || !kasir ) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Diisi Data Yang Belum Diinput!',
+            // target: document.getElementById('modal_pilih'),
+            // footer: '<a href="">Why do I have this issue?</a>'
+          })
+          // alert("fill all columns");
+          // window.location.href = "/table"
         }
         else{
-        
-        form_update = { "idbrg" :  idbrg , "namabrg" : namabrg, "filenamebrg" : filenamebrg, "grambrg" : grambrg,"hargajualbrg":hargajualbrg,"hargajual2brg":hargajual2brg, "qtybrg":qtybrg, "tglinputbrg":tglinputbrg, "qrcodebrg":qrcodebrg, "potonganhargabrg" : potonganhargabrg, "potonganharga2brg" : potonganharga2brg,  "totalbrg" : totalbrg, "jumlahbrg":jumlahbrg, "codeinvoice": codeinvoice, "namapembelibrg": namapembelibrg,  "subtotalbrg":subtotalbrg, "kasir":kasir, "qtybrg":qtybrg,"tgl_nota":tgl_nota, "number_phone":number_phone, "kodeqrbrg": kodeqrbrg, "kadar":kadarbrg }
-        
-        
-        
-        //var str1 =  coba
-        console.log(qtybrg)// Gives you "42,55"
-        // var str2 = String(arr);
-        var XHR = new XMLHttpRequest()
-        XHR.addEventListener("load", tampilkanrespon)
-        XHR.open("POST","/transaksisukses")
-        XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
-        XHR.send(JSON.stringify(form_update))
-        
-        function tampilkanrespon() {
-          console.log(this.responseText)
-          if(XHR.status == 200){
+          
+          form_update = { "idbrg" :  idbrg , "namabrg" : namabrg, "filenamebrg" : filenamebrg, "grambrg" : grambrg,"hargajualbrg":hargajualbrg,"hargajual2brg":hargajual2brg, "qtybrg":qtybrg, "tglinputbrg":tglinputbrg, "qrcodebrg":qrcodebrg, "potonganhargabrg" : potonganhargabrg, "potonganharga2brg" : potonganharga2brg,  "totalbrg" : totalbrg, "jumlahbrg":jumlahbrg, "codeinvoice": codeinvoice, "namapembelibrg": namapembelibrg,  "subtotalbrg":subtotalbrg, "kasir":kasir, "qtybrg":qtybrg,"tgl_nota":tgl_nota, "number_phone":number_phone, "kodeqrbrg": kodeqrbrg, "kadar":kadarbrg, "sub_totalrp":text }
+          
+          
+          
+          
+          //var str1 =  coba
+          console.log(qtybrg)// Gives you "42,55"
+          // var str2 = String(arr);
+          var XHR = new XMLHttpRequest()
+          XHR.addEventListener("load", tampilkanrespon)
+          XHR.open("POST","/transaksisukses")
+          XHR.setRequestHeader("content-type", "application/json;charset=utf-8")
+          XHR.send(JSON.stringify(form_update))
+          
+          
+          
+          //   fetch('https://tokoemasmuliaberau.com/deletedata/'+filenamebrg, {
+            //   method: 'DELETE',
+            // })
             
-       
-            
-
+            function tampilkanrespon() {
+              console.log(this.responseText)
+              if(XHR.status == 200){
+                let text = ""
+                for(var i = 0; i < cartarray.length; i++) {
+                  x = cartarray[i].filename ;
+                  console.log(x)
+                  fetch(`https://tokoemasmuliaberau.com/deletedata/${x}`, {
+                    method: 'DELETE',
+                  })
+                }
+                
+                
+              }
+              else{
+                // alert("data tidak masuk")
+              }
+            }
           }
-          else{
-            // alert("data tidak masuk")
-          }
-        }
-      }
-        // do something with jsonResponse
-      };
+          // do something with jsonResponse
+        };
     }
     // Calling that async function
     getapi(api_url);
@@ -2246,6 +2285,36 @@ req.send(null);
     
   }
 </script>
+<!-- 
+<script>
+  function deleteafter() {
+    const api_url = "https://tokoemasmuliaberau.com/cartapi";
+    async function getapi(url) {
+      
+      // Storing response
+      const response = await fetch(url);
+      
+      // Storing data in form of JSON
+      var data = await response.json();
+      jsonResponse = data.cart
+      var cartarray = jsonResponse
+      
+      console.log(data.cart);
+      
+      // show(data);
+      for(var i = 0; i < cartarray.length; i++) {
+        
+        //console.log(cartarray[i]);
+        var filename = cartarray[i].filename
+        console.log(filename) 
+        // fetch(`https://tokoemasmuliaberau.com/deletedata/${filename}`, {
+        //   method: 'DELETE',
+        // })
+      }  
+      getapi(api_url);
+    }
+    }
+</script> -->
 <script>
   function deletecart(){
 

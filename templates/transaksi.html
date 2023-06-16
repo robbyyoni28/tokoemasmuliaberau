@@ -386,7 +386,7 @@ body > .printableArea {
         <div class="col-xl-12 ">
           <div class="card">
             <div class="card-body p-3">
-              <h1>INVOICE</h1>
+              <h1>Laporan Penjualan</h1>
               <div class="row">
                 <div class="col-sm">
                   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -538,7 +538,7 @@ body > .printableArea {
             </div> -->
             <div class="modal-footer form-group">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="submit"  onclick="sendupdatetoserver()">Save changes</button>
+              <button type="submit" class="btn btn-primary" id="submit"  onclick="sendupdatetoserver()" >Save changes</button>
             </div>
             
             
@@ -550,21 +550,83 @@ body > .printableArea {
    
 </div>
 <div class="modal fade" id="modaldetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="idtransaksidetail">Modal title</h5>
+        <!-- <div class="container">
 
-        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+        </div> -->
+        
+        
+        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" onclick="window.location = window.location">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+       <div class="container" style="padding-bottom: 20px;">
+        <div class="row">
+          <div class="col" id="kirian">
+            
+          </div>
+          <div class="col" id="tanggalan">
+            
+          </div>
+          <div class="col" id="namakonsumen">
+            
+          </div>
+        </div>
+       </div>
+       
+        <table class="table text-center" id="table-detail">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID Barang</th>
+              <th scope="col">Foto Barang</th>
+              <th scope="col">Nama Barang</th>
+              <th scope="col">QR Code</th>
+              <th scope="col">Karat / Kadar</th>
+              <th scope="col">Gram</th>
+              <th scope="col">Qty</th>
+              <th scope="total">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr> -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6" style="border-color: transparent; background-color: transparent;border-right-color: black;"></td>
+              <td  rowspan="2" style="font-weight: bold; color: #000000;">Grand Total</td>
+              <td style="font-weight: bold; color: #000000;" id="grandtotaldetail"></td>
+              
+              
+              
+            </tr>
+           </tfoot>
+        </table>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" onclick="window.location = window.location">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
@@ -1366,9 +1428,73 @@ body > .printableArea {
     XHR.send(JSON.stringify(form_update))
     
     function tampilkanrespon() {
-        console.log(this.responseText)
+        // var wah = this.response 
+        // var wah = 'json'
+        // jsonresponse = wah
+        // console.log(jsonresponse.detail["nama_barang"])
         if(XHR.status == 200){
-          
+          var wah = JSON.parse(this.response)
+          // var aduh = wah
+          // wah.responseType = 'json'
+          console.log(wah.detail[0].sub_total)
+          document.getElementById('grandtotaldetail').innerHTML = wah.detail[0].sub_total;
+          document.getElementById('idtransaksidetail').innerHTML = wah.detail[0].id_transaksi;
+          kasirdetail = wah.detail[0].kasir;
+          tanggaldetail = wah.detail[0].tgl_nota;
+          namakonsumendetail = wah.detail[0].nama_konsumen;
+          var kirian = document.getElementById('kirian')
+          kirian.innerHTML=kirian.innerHTML +`
+          <p><strong>Kasir : ${kasirdetail}
+            </strong></p>
+          `
+          var tanggalan = document.getElementById('tanggalan')
+          tanggalan.innerHTML=tanggalan.innerHTML +`
+          <p><strong>Tanggal Transaksi : ${tanggaldetail}
+            </strong></p>
+          `
+          var namakonsumen = document.getElementById('namakonsumen')
+          namakonsumen.innerHTML=namakonsumen.innerHTML +`
+          <p><strong>Nama Pelanggan : ${namakonsumendetail}
+            </strong></p>
+          `
+          // var detailtrans = this.responseText
+          // var tested = detailtrans
+          // let keys = Object.values(jsonresponse)
+          // console.log(jsonresponse.filename)
+          wah.detail.forEach((obj, i) => {
+            // console.log(obj.filename);
+            var filename = obj.filename
+            var id_barang= obj.id_barang
+            var qrcode= obj.qrcode
+            var nama= obj.nama_barang
+            var karat= obj.kadar
+            var gram= obj.gram
+            var qty = obj.qtybrg
+            var sub = obj.sub_totalrp
+
+
+
+            console.log(filename)
+            var  jsonresponse = wah.detail[0]
+            var table = document.getElementById('table-detail')
+            table.innerHTML = table.innerHTML + `<tr>
+              <td scope="row" class="id_barang">${id_barang}</td>
+              <td class="nama_barang ">${nama}</td>
+              <td class="gambar"><img class="img-fluid img-thumbnail" style="width: 50px; height:50px;" src="/static/uploads/${filename}" /></td>
+              <td class="qrcode"><img class="img-fluid" style="width: 50px; height:50px;" src="/static/uploads/${qrcode}" "/></td>
+              <td class="nama_barang">${karat}</td>
+              <td class="nama_barang">${gram}</td>
+              <td class="nama_barang">${qty}</td>
+              <td class="nama_barang">${sub}</td>
+
+
+             
+            </tr>`
+          // this.responseText = 'json'
+            // console.log("msgBody", obj.msgBody);
+          });
+         
+
           $('#modaldetail').modal('show')
           
         }

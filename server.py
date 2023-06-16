@@ -395,6 +395,15 @@ def deleteallrowcart():
             connection.commit()
             return jsonify({"pesan": "sudah masuk"}), 200
 
+@app.route('/deletedata/<filename>', methods=['DELETE'])
+def deletedata(filename):
+    
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        cursor.execute(f"DELETE FROM barang WHERE filename = '{filename}'   ")
+        connection.commit()
+        return jsonify({"pesan": "sudah terhapus"}), 200
+
 @app.route('/delete/<filename>', methods=['GET','POST'])
 def delete(filename):
     full_path =  os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -491,6 +500,7 @@ def transaksisukses():
         number_phone = request.form['number_phone']
         kodeqrbrg = request.form['kodeqrbrg']
         kadar = request.form['kadar']
+        subtotalrp = request.form['sub_totalrp']
         id_member = '1'
         qrcodetransaksi = 'no'
         print(idbrg)
@@ -504,7 +514,7 @@ def transaksisukses():
        
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO penjualan (id_barang,id_member,filename,nama_konsumen,id_transaksi, harga_jual, jumlah,potongan_harga, total, gram,tanggal_transaksi,qrcode,qrcode_transaksi,nama_barang, sub_total ,  kasir, note, qtybrg, tgl_nota,no_hp,kodeqr,kadar) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (idbrg,id_member, filenamebrg, namapembelibrg, codeinvoice,hargajualbrg,jumlahbrg,potonganhargabrg, totalbrg, grambrg, iso8601, qrcodebrg,new_filenamebarcode, namabrg, subtotalbrg, kasir,qrcodetransaksi, qtybrg, tgl_nota, number_phone, kodeqrbrg, kadar))
+            cursor.execute(f"INSERT INTO penjualan (id_barang,id_member,filename,nama_konsumen,id_transaksi, harga_jual, jumlah,potongan_harga, total, gram,tanggal_transaksi,qrcode,qrcode_transaksi,nama_barang, sub_total ,  kasir, note, qtybrg, tgl_nota,no_hp,kodeqr,kadar, sub_totalrp) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (idbrg,id_member, filenamebrg, namapembelibrg, codeinvoice,hargajualbrg,jumlahbrg,potonganhargabrg, totalbrg, grambrg, iso8601, qrcodebrg,new_filenamebarcode, namabrg, subtotalbrg, kasir,qrcodetransaksi, qtybrg, tgl_nota, number_phone, kodeqrbrg, kadar, subtotalrp))
             connection.commit()
 
         # cursor.execute(f"INSERT INTO tb_penjualan (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
@@ -561,7 +571,7 @@ def invoice():
     with connection.cursor() as cursor:
         # request.form = request.json
         # addcart_id = request.form['upd_id_barang']
-        cursor.execute(f"SELECT  DISTINCT id_transaksi,tgl_nota,nama_konsumen,kasir,sub_total, kodeqr,id_barang from penjualan ORDER BY id_transaksi DESC")
+        cursor.execute(f"SELECT  DISTINCT id_transaksi,tgl_nota,nama_konsumen,kasir,sub_total from penjualan ORDER BY id_transaksi DESC")
         invoicedone = cursor.fetchall()
         print(invoicedone)
 
@@ -698,7 +708,7 @@ def detailapi():
         if detail is None:
             return jsonify("data tidak ditemukan oleh server", status=404)
         else:
-            return jsonify({"detail":detail})
+            return jsonify({'detail':detail})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

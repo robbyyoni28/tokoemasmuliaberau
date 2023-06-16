@@ -506,7 +506,7 @@ body > .printableArea {
                         <th>Kadar</th>
                         <!-- <th>Satuan Barang</th> -->
                         <!-- <th>Stok</th> -->
-                        <th>Input/Update</th>
+                        <th>Tanggal Masuk</th>
                         <!-- <th>Tanggal Update</th> -->
                         <th>Action</th>
                       </tr>
@@ -527,7 +527,8 @@ body > .printableArea {
                         <!-- <td>{{row['stok']}}</td> -->
                         <td>{{row['tgl_new']}}</td>
                         <!-- <td>{{row['tgl_update']}}</td> -->
-                        <td>  <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['modifankamu']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button>
+                        <td> 
+                           <!-- <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="showEditModal('{{row['id']}}','{{row['modifankamu']}}','{{row['filename']}}', '{{row['nama_barang']}}','{{row['gram']}}','{{row['tgl_input']}}','{{row['filename']}}',)"><i class="fa fa-refresh" aria-hidden="true" > </i> Update</button> -->
                           <!-- <a type="button" class="btn btn-info" data-target="#detailmodal"  href="/detail/{{ row['id_barang'] }}" ><i class="fa fa-refresh"  aria-hidden="true" ></i> Detail</a> -->
                           <a type="button" class="btn btn-danger" href="/delete/{{ row['filename'] }}" onclick="return confirm('Yakin ingin hapus?')"  ><i class="fa fa-trash" aria-hidden="true" > </i> Delete</a>
                           <!-- <button type="button" class="btn btn-primary "  data-toggle="modal"  href="#" onclick="myPrint('{{row['qrcode']}}','{{row['nama_barang']}}', '{{row['modifankamu']}}', '{{row['gram']}}')" ><i class="fa fa-refresh" aria-hidden="true" > </i> Print</button> -->

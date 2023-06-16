@@ -437,7 +437,7 @@
                 <th>FOTO BARANG</th>
                 <!-- <th>Qr Code</th> -->
                 <th>NAMA BARANG</th>
-                <th>KADAR/KARAT</th>
+                <th>KARAT / KADAR</th>
                 <th>GRAM</th>
                 <th>QTY</th>
                 <!-- <th>PRICE</th> -->
@@ -461,7 +461,7 @@
                     <!-- <td >Rp. {{row['harga_jual']}},00</td> -->
                     <!-- <td >Rp. {{row['potongan_harga']}},00</td> -->
                     <!-- <td>{{row['tgl_update']}}</td> -->
-                    <td > {{row['total']}}</td>
+                    <td > {{row['sub_totalrp']}}</td>
                   </tr>
                   {% endfor %}
                   
@@ -619,7 +619,7 @@
                   <!-- <span class="alamattoko">Jln.AKB.Sanipah Telp.(0554)23606 - 25806</span> -->
                   {% for row in invoice %}
                   {% if loop.index <= 1 %}
-                  <span id="tanggaltransaksi">Tanggal&ensp;&ensp;&ensp;: {{row['tanggal_transaksi']}}</span>
+                  <span id="tanggaltransaksi">Tanggal&ensp;&ensp;&ensp;: {{row['tgl_nota']}}</span>
                   {% endif %}
                   {% endfor %}
                 </p>
@@ -660,7 +660,7 @@
               <th>ID BARANG</th>
               <th>FOTO BARANG</th>
               <th>NAMA BARANG</th>
-              <th>KADAR/KARAT</th>
+              <th>KARAT / KADAR</th>
               <th>GRAM</th>
               <th>QTY</th>
               <!-- <th>PRICE</th>
@@ -684,7 +684,7 @@
                   <!-- <td >Rp. {{row['harga_jual']}},00</td>
                   <td >Rp. {{row['potongan_harga']}},00</td> -->
                   <!-- <td>{{row['tgl_update']}}</td> -->
-                  <td > {{row['total']}}</td>
+                  <td > {{row['sub_totalrp']}}</td>
                 </tr>
                 {% endfor %}
                 
