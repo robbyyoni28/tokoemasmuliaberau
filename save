@@ -952,3 +952,13 @@ for (var i = 0; i < arrayLength; i++) {
           {% endfor %}
         </tbody>
       </table>
+
+
+      SELECT    DATE(tanggal_aja) as DATE, SUM(`total`) totalCOunt
+FROM      penjualan
+GROUP BY  DATE(tanggal_aja)
+
+
+SELECT    DATE(tanggal_aja) as DATE , SUM(`total`) totalCOunt 
+FROM      penjualan 
+GROUP BY  DATE(tanggal_aja) order by DATE desc LIMIT 7

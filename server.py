@@ -15,7 +15,7 @@ import pdfkit
 import random
 from datetime import timedelta
 import xlwt
-
+from datetime import datetime
 
 
 # from datetime import *
@@ -90,8 +90,16 @@ def dashboard():
         cursor.execute(f"SELECT COUNT(id_penjualan) AS hitungtransaksi FROM penjualan")
         hitungtransaksi = cursor.fetchall()
         print(hitungtransaksi)
+
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT    DATE(tanggal_aja) as DATE , SUM(`total`) totalCOunt FROM      penjualan GROUP BY  DATE(tanggal_aja) ORDER BY DATE desc LIMIT 7")
+        transaksiperweek = cursor.fetchall()
+        print(transaksiperweek)
     
-    return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi)
+    return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi, transaksiperweek=transaksiperweek)
 
 @app.route('/table', methods=['GET','POST'])
 def table():
@@ -501,6 +509,7 @@ def transaksisukses():
         kodeqrbrg = request.form['kodeqrbrg']
         kadar = request.form['kadar']
         subtotalrp = request.form['sub_totalrp']
+        tanggalaja = datetime.datetime.now().strftime('%Y-%m-%d')
         id_member = '1'
         qrcodetransaksi = 'no'
         print(idbrg)
@@ -514,7 +523,7 @@ def transaksisukses():
        
         connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO penjualan (id_barang,id_member,filename,nama_konsumen,id_transaksi, harga_jual, jumlah,potongan_harga, total, gram,tanggal_transaksi,qrcode,qrcode_transaksi,nama_barang, sub_total ,  kasir, note, qtybrg, tgl_nota,no_hp,kodeqr,kadar, sub_totalrp) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (idbrg,id_member, filenamebrg, namapembelibrg, codeinvoice,hargajualbrg,jumlahbrg,potonganhargabrg, totalbrg, grambrg, iso8601, qrcodebrg,new_filenamebarcode, namabrg, subtotalbrg, kasir,qrcodetransaksi, qtybrg, tgl_nota, number_phone, kodeqrbrg, kadar, subtotalrp))
+            cursor.execute(f"INSERT INTO penjualan (id_barang,id_member,filename,nama_konsumen,id_transaksi, harga_jual, jumlah,potongan_harga, total, gram,tanggal_transaksi,qrcode,qrcode_transaksi,nama_barang, sub_total ,  kasir, note, qtybrg, tgl_nota,no_hp,kodeqr,kadar, sub_totalrp,tanggal_aja) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (idbrg,id_member, filenamebrg, namapembelibrg, codeinvoice,hargajualbrg,jumlahbrg,potonganhargabrg, totalbrg, grambrg, iso8601, qrcodebrg,new_filenamebarcode, namabrg, subtotalbrg, kasir,qrcodetransaksi, qtybrg, tgl_nota, number_phone, kodeqrbrg, kadar, subtotalrp, tanggalaja))
             connection.commit()
 
         # cursor.execute(f"INSERT INTO tb_penjualan (id_barang,filename,nama_barang,gram,harga_jual,harga_jual2,qty, tanggal_input, tanggal_update, qrcode, potongan_harga,potongan_harga2, total, jumlah) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)", (addcart_id, addcart_filename, addcart_nama, addcart_gram,addcart_hargajual,addcart_hargajual2,addcart_qty, addcart_tglinput, addcart_tglupdate, addcart_qrcode, addcart_potonganharga,addcart_potonganharga2, addcart_total, addcart_removerupiah))
