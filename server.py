@@ -95,11 +95,43 @@ def dashboard():
     with connection.cursor() as cursor:
         # request.form = request.json
         # addcart_id = request.form['upd_id_barang']
-        cursor.execute(f"SELECT    DATE(tanggal_aja) as DATE , SUM(`total`) totalCOunt FROM      penjualan GROUP BY  DATE(tanggal_aja) ORDER BY DATE desc LIMIT 7")
+        cursor.execute(f"SELECT dayname(tanggal_transaksi) as DATE , format(SUM(`total`) ,2, 'de_DE') as totalCOunt, MAX(tanggal_aja) as tanggal, count(distinct(id_transaksi)) as perday FROM penjualan GROUP BY  DATE(tanggal_transaksi) ORDER BY tanggal desc LIMIT 7 OFFSET 1")
         transaksiperweek = cursor.fetchall()
         print(transaksiperweek)
+
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT count(id) as barangmasuk from `barang` WHERE DATE(`tgl_input`) = CURDATE()")
+        inputbarangperday = cursor.fetchall()
+        print(inputbarangperday)
     
-    return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi, transaksiperweek=transaksiperweek)
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT count(id_penjualan) as barang_keluar from penjualan where tanggal_aja = curdate();")
+        outputbarangperday = cursor.fetchall()
+        print(outputbarangperday)
+
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT count(distinct(id_transaksi)) as total_transaksi from penjualan where tanggal_aja = curdate();")
+        transaksiperday = cursor.fetchall()
+        print(transaksiperday)
+    
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT FORMAT(sum(total),2, 'id_ID') as total_penjualan from penjualan where tanggal_aja = curdate();")
+        penjualanperday = cursor.fetchall()
+        print(penjualanperday)
+
+    return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi, transaksiperweek=transaksiperweek, inputbarangperday=inputbarangperday, outputbarangperday=outputbarangperday, transaksiperday=transaksiperday, penjualanperday=penjualanperday)
 
 @app.route('/table', methods=['GET','POST'])
 def table():
