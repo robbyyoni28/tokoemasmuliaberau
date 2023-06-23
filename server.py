@@ -16,6 +16,7 @@ import random
 from datetime import timedelta
 import xlwt
 from datetime import datetime
+import locale
 
 
 # from datetime import *
@@ -132,6 +133,22 @@ def dashboard():
         print(penjualanperday)
 
     return render_template("dashboard.html",sess_data=session,hitungbarang=hitungbarang, hitungtransaksi=hitungtransaksi, transaksiperweek=transaksiperweek, inputbarangperday=inputbarangperday, outputbarangperday=outputbarangperday, transaksiperday=transaksiperday, penjualanperday=penjualanperday)
+
+
+@app.route('/apireport7day', methods=['GET','POST'])
+def apireport7day():
+    connection = pymysql.connect(host='128.199.195.208',user='tokoemas',password='pusamania',database='db_toko',cursorclass=pymysql.cursors.DictCursor)
+    with connection.cursor() as cursor:
+        # request.form = request.json
+        # addcart_id = request.form['upd_id_barang']
+        cursor.execute(f"SELECT max(tanggal_transaksi) as DATE , format(SUM(`total`) ,2, 'de_DE') as totalCOunt, MAX(tanggal_aja) as tanggal, count(distinct(id_transaksi)) as perday FROM penjualan GROUP BY  DATE(tanggal_transaksi) ORDER BY tanggal desc LIMIT 7 OFFSET 1")
+        transaksiperweek = cursor.fetchall()
+        print(transaksiperweek)
+
+        if transaksiperweek is None:
+            return jsonify("data tidak ditemukan oleh server", status=404)
+        else:
+            return jsonify({"transaksiperweek":transaksiperweek})
 
 @app.route('/table', methods=['GET','POST'])
 def table():

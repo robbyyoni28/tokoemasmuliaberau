@@ -430,19 +430,19 @@
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">KASIR</label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="kasir" value="" >
+                      <input type="text" class="form-control" id="kasir" value="" oninput="namakasir()">
                     </div>
                   </div>
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">CUSTOMER</label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="namapembeli" value="" >
+                      <input type="text" class="form-control" id="namapembeli" value="" oninput="namapembeli()">
                     </div>
                   </div>
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">NOMOR HANDPHONE</label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="numberphone" value="" >
+                      <input type="number" class="form-control" id="numberphone" value="" oninput="numberphone()">
                     </div>
                   </div>
                 </div>
@@ -1880,8 +1880,29 @@ $( document ).ready(function() {
        
     };
 </script>
- 
-
+ <script>
+  function namakasir(){
+    let text = document.getElementById("kasir").value;
+    localStorage.setItem("namakasir", text);
+  }
+ </script>
+ <script>
+  function namapembeli(){
+    let text = document.getElementById("namapembeli").value;
+    localStorage.setItem("namapembeli", text);
+  }
+ </script>
+ <script>
+  function numberphone(){
+    let text = document.getElementById("numberphone").value;
+    localStorage.setItem("numberphone", text);
+  }
+ </script>
+<script>
+  document.getElementById("namapembeli").value = localStorage.getItem("namapembeli");
+  document.getElementById("kasir").value = localStorage.getItem("namakasir");
+  document.getElementById("numberphone").value = localStorage.getItem("numberphone");
+</script>
 <script>
    
   function addTo(modifankamu,filename, nama_barang, gram, tgl_input, tgl_update, qrcode, kadar, kodeqr) {
@@ -2362,6 +2383,7 @@ Swal.fire({
 }).then((result) => {
   if (result.isConfirmed) {
     window.location.href="/invoice"
+    localStorage.clear();
   }
   // else{
   //   location.reload()

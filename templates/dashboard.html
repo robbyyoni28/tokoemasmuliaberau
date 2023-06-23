@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="utf-8" />
@@ -38,7 +38,7 @@
 
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
+<body class="g-sidenav-show  bg-gray-100" onload="reportapi7weeek()">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -368,6 +368,32 @@
       </div>
     </nav>
     <!-- End Navbar -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+               
+                  <div class="col-4">
+                    LAPORAN HARI INI
+                  </div>
+                  <div class="col-4" id="hari_ini">
+                    One of two columns
+                  </div>
+                
+                <!-- <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                    <i class="fa fa-upload text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
@@ -536,14 +562,14 @@
         </div> -->
       </div>
       
-      <div class="row mt-4">
+      <div class="row mt-4" onload="changeLanguage('id')">
         <div class="col-lg-12 mb-lg-0 mb-4">
           <div class="card z-index-2">
             <div class="card-body p-3">
               <!-- <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3"> -->
                 <div class="d-flex flex-column h-100">
                   <!-- <p class="mb-1 pt-2 text-bold">Built by developers</p> -->
-                  <h5 class="font-weight-bolder d-flex justify-content-center">Laporan 7 Hari Sebelumnya</h5>
+                  <h5 class="font-weight-bolder d-flex justify-content-center">Penjualan 7 Hari Sebelumnya</h5>
                   <!-- <p class="mb-5">From colors, cards, typography to complex elements, you will find the full documentation.</p>
                     <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
                       Read More
@@ -552,23 +578,23 @@
                     <table class="table table-responsive">
                       <thead>
                         <tr class="text-center">
+                          <th scope="col" >Hari</th>
                           <th scope="col">Tanggal</th>
-                          <th scope="col">Hari</th>
                           <th scope="col">Transaksi</th>
                           <th scope="col">Total</th>
                           <!-- <th scope="col">Handle</th> -->
                         </tr>
                       </thead>
                       <tbody>
-                        {% for row in transaksiperweek %}
+                        <!-- {% for row in transaksiperweek %}
                         <tr class="text-center">
                           <th scope="row">{{row['tanggal']}}</th>
-                          <td>{{row['DATE']}}</td>
+                          <td lang="id">{{row['DATE']}}</td>
                           <td>{{row['perday']}}</td>
                           <td>Rp. {{row['totalCOunt']}}</td>
-                          <!-- <td>@mdo</td> -->
+                          
                         </tr>
-                        {% endfor %}
+                        {% endfor %} -->
                       </tbody>
                     </table>
                   </div>
@@ -1047,6 +1073,63 @@
   <script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="/static/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
+  <script src="/static/js/luxon.js"></script>
+  <script src="/static/js/luxon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.1/luxon.min.js"></script>
+  <script>
+    function reportapi7weeek() {
+      
+      
+      const api_url = "https://tokoemasmuliaberau.com/apireport7day";
+      async function getapi(url) {
+        
+        // Storing response
+        const response = await fetch(url);
+       
+    //     console.log(DateTime.fromJSDate(new Date('06/24/2020')).toFormat('dd')
+    // .replace('!', "'"))
+        // Storing data in form of JSON
+        var data = await response.json();
+        jsonResponse = data.transaksiperweek
+        var cartarray = jsonResponse
+        
+        console.log(cartarray);
+        
+        // show(data);
+        // for(var i = 0; i < cartarray.length; i++) {
+        //   var carttrans = cartarray[i].DATE
+        //   let weekday = new Date(carttrans).toLocaleString('id-ID', {weekday:'long'});
+        //   // const dt = carttrans.local().toFormat('MM/dd/yyyy')
+        //   // // var DateTime = luxon.carttrans;
+        //   console.log(weekday)
+        // }
+        const table = document.querySelector('tbody')
+        Object.values(cartarray).forEach((item) => {
+            let weekday = new Date(item.DATE).toLocaleString('id-ID', {weekday:'long'});
+            console.log(weekday)
+          table.innerHTML = table.innerHTML + `<tr class="text-center">
+            <td class="id_barang">${weekday}</td>
+            
+            <td class="nama_barang">${item['tanggal']}</td>
+            <td class="gram">${item['perday']}</td>
+            <td class="qty">${item['totalCOunt']}</td>
+            
+          </tr>`
+          //console.log(item[filename]);
+          console.log(item)
+        })
+      }
+      getapi(api_url);
+    }
+  </script>
+  <script>
+    let daynow =new Date().toLocaleString('id-ID', {weekday: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric"});
+        document.getElementById("hari_ini").innerHTML = daynow;
+    console.log(daynow)
+  </script>
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -1230,6 +1313,12 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/static/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+  <script>
+    function changeLanguage(lang){
+
+    }
+  </script>
+ 
 </body>
 
 </html>
