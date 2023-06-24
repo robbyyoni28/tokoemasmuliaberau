@@ -376,10 +376,11 @@
               <div class="row">
                
                   <div class="col-4">
-                    LAPORAN HARI INI
+                    <h4> LAPORAN HARI INI</h4>
+                    
                   </div>
-                  <div class="col-4" id="hari_ini">
-                    One of two columns
+                  <div class="col-4" >
+                    <h4 id="hari_ini"></h4>
                   </div>
                 
                 <!-- <div class="col-4 text-end">
@@ -1123,7 +1124,7 @@
     }
   </script>
   <script>
-    let daynow =new Date().toLocaleString('id-ID', {weekday: "short",
+    let daynow =new Date().toLocaleString('id-ID', {weekday: "long",
         year: "numeric",
         month: "2-digit",
         day: "numeric"});
